@@ -1,26 +1,3 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}
-
-/* Phần footer */
 .footer {
     background-color: #faf9ea;
     color: #111014;
@@ -69,7 +46,8 @@ footer p {
 .bottom li {
     margin-top: 15px;
     margin-bottom: 20px;
-    a{
+}
+
+.bottom li a {
         text-decoration: none;
     }
-}

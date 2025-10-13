@@ -5,12 +5,12 @@
                 <div class="dropdown">
                     <button>Category</button>
                     <div class="category-content">
-                    <a href="/oop-bookstore/views/bookCategory/category.bookCategory.php?category=1">Fiction</a>
-                    <a href="/oop-bookstore/views/bookCategory/category.bookCategory.php?category=4">Non-Fiction</a>
-                    <a href="/oop-bookstore/views/bookCategory/category.bookCategory.php?category=3">Science</a>
-                    <a href="/oop-bookstore/views/bookCategory/category.bookCategory.php?category=2">History</a>
+                    <a href="#">Fiction</a>
+                    <a href="#">Non-Fiction</a>
+                    <a href="#">Science</a>
+                    <a href="#">History</a>
                 </div>
-            <li><a href="/oop-bookstore/views/homepage.views.php">Homepage</a></li>
+            <li><a href="/<?= PROJECT_NAME ?>">Homepage</a></li>
             <!-- <?php if($role == 3): ?> <!--admin-->
                     <li><a href="/oop-bookstore/views/admin/dashboard.admin.php?page_number=1">Admin Dashboard</a></li> <!--show dashboard for admin-->
                     <li><a href="/oop-bookstore/views/staff/dashboard.staff.php">Staff Dashboard</a></li>
@@ -29,8 +29,8 @@
                     <input type="hidden" name="logout" value="1">
                 </form>
             <?php else: ?>
-                <li><a href="/oop-bookstore/views/auth/register.auth.php">Register</a></li>
-                <li><a href="/oop-bookstore/views/auth/login.auth.php">Login</a></li>
+                <li><a href="/<?= PROJECT_NAME ?>/register">Register</a></li>
+                <li><a href="/<?= PROJECT_NAME ?>/login">login</a></li>
             <?php endif; ?>
         </div>
     </ul>

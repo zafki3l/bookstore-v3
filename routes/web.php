@@ -25,8 +25,23 @@ $router->get('/register', function () {
 
 $router->post('/register', function () {
     $db = new Database();
-    $user = new User($db, null, $_POST['first_name'], $_POST['last_name'], $_POST['email'], $_POST['gender'], $_POST['password']);
-    $address = new Address($db, null, $_POST['street'], $_POST['city']);
+
+    $user = new User(
+        $db, 
+        null, 
+        trim($_POST['first_name']),
+        trim($_POST['last_name']),
+        trim($_POST['email']),
+        trim($_POST['gender']),
+        trim($_POST['password'])
+    );
+
+    $address = new Address(
+        $db, 
+        null,
+        trim($_POST['street']),
+        $_POST['city']
+    );
     
     $controller = new AuthController($user, $address);
     $controller->register();

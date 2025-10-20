@@ -1,10 +1,9 @@
 .register-container {
-    max-width: 500px;
-    margin: 40px auto;
+    max-width: 800px;
+    margin: 100px auto;
     padding: 2rem;
     background: #faf9ea;
-    border: 1px solid #111014;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -31,8 +30,14 @@
     color: #111014;
 }
 
+.register-container .submit-box {
+    display: flex;
+    justify-content:space-between;
+    margin-top: 20px;
+} 
+
 .register-container button {
-    width: 100%;
+    width: 25%;
     padding: 0.8rem;
     margin-top: 1.5rem;
     background: #ca122f;
@@ -94,3 +99,18 @@ p {
     transform: translateY(-5px);
 }
 
+.row {
+    display: flex;
+    gap: 20px; /* khoảng cách giữa 2 ô */
+}
+
+.row .form-group {
+    flex: 1; /* chia đều 2 ô */
+    display: flex;
+    flex-direction: column;
+}
+
+.error-msg p {
+    color: #ca122f;
+    font-weight: bold;
+}

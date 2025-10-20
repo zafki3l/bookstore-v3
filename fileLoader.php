@@ -15,3 +15,7 @@ foreach (glob(BASE_PATH . '/app/Models/*.php') as $filename) {
 foreach (glob(BASE_PATH . '/app/Controllers/*.php') as $filename) {
     require_once $filename;
 }
+
+foreach (glob(BASE_PATH . '/ErrorHandlers/*.php') as $filename) {
+    require_once $filename;
+}

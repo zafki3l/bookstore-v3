@@ -1,3 +1,12 @@
+<?php
+
+function error($msg)
+{
+    return $_SESSION['errors'][$msg][0];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,68 +19,118 @@
 <body>
     <div class="main-content">
         <div class="register-container">
-            <h2>REGISTER</h2>
+            <h2>ACCOUNT REGISTRATION</h2>
             <form action="/<?= PROJECT_NAME ?>/register" method="post">
                 <div>
-                    <div>
-                        <label for="first_name">First name: *</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="First name">
-                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="first_name">First name: *</label>
+                            <input type="text" name="first_name" id="first_name" placeholder="First name">
 
-                    <div>
-                        <label for="last_name">Last name: *</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Last name">
-                    </div>
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
+                                    <p><?= error('empty-input') ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
 
-                    <div>
-                        <label for="email">Email: * </label>
-                        <input type="text" name="email" id="email" placeholder="email">
-                    </div>
+                        <div class="form-group">
+                            <label for="last_name">Last name: *</label>
+                            <input type="text" name="last_name" id="last_name" placeholder="Last name">
 
-                    <div>
-                        <label for="gender">Gender: *</label>
-                        <div class="gender-group">
-                            <label>
-                                <input type="radio" name="gender" value="male" required> Male
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" value="female"> Female
-                            </label>
-                            <label>
-                                <input type="radio" name="gender" value="other"> Other
-                            </label>
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
+                                    <p><?= error('empty-input') ?></p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <label for="city">City: * </label>
-                        <input type="text" name="city" id="city" placeholder="City">
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="email">Email: * </label>
+                            <input type="text" name="email" id="email" placeholder="email">
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
+                                    <p><?= error('empty-input') ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender: *</label>
+                            <div class="gender-group">
+                                <label>
+                                    <input type="radio" name="gender" value="male"> Male
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender" value="other"> Other
+                                </label>
+                            </div>
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
+                                    <p><?= error('empty-input') ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="city">City: * </label>
+                            <input type="text" name="city" id="city" placeholder="City">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="street">Street: * </label>
+                            <input type="text" name="street" id="street" placeholder="Street">
+                        </div>
                     </div>
 
-                    <div>
-                        <label for="street">Street: * </label>
-                        <input type="text" name="street" id="street" placeholder="Street">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="password">Password: *</label>
+                            <input type="password" name="password" id="password" placeholder="password">
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
+                                    <p><?= error('empty-input') ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div>
-                        <label for="password">Password: *</label>
-                        <input type="password" name="password" id="password" placeholder="password">
-                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="password-confirmation">Password confirm: *</label>
+                            <input type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirm your password">
 
-                    <div>
-                        <label for="password-confirmation">Password confirm: *</label>
-                        <input type="password" name="password-confirmation" id="password-confirmation" placeholder="Confirm your password">
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['pwd-confirm-error'])): ?>
+                                    <p><?= error('pwd-confirm-error') ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
+                <div class="submit-box">
+                    <div class="login-btn">
+                        <p>Already have an account? </p>
+                        <p><a href="/<?= PROJECT_NAME ?>/login">Login here</a></p>
+                    </div>
+            
                     <button class="submit-btn" type="submit">Register</button>
                 </div>
+
             </form>
-            <p>
-                Already have an account?
-                <a href="/<?= PROJECT_NAME ?>/login">Login</a>
-            </p>
         </div>
     </div>
 </body>

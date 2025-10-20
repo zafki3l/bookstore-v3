@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once '../fileLoader.php';
 
 $router = new Router();

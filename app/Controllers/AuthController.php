@@ -11,9 +11,6 @@ class AuthController extends Controller
         Address $address = new Address(),
         AuthErrorHandler $errorHandler = new AuthErrorHandler()
     ) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         $this->user = $user;
         $this->address = $address;
         $this->errorHandler = $errorHandler;
@@ -45,7 +42,9 @@ class AuthController extends Controller
         ];
 
         $this->renderView('layouts/main-layouts/homepage.layouts', $data);
-        unset($_SESSION['errors']);
+        if (isset($_SESSION['errors'])) {
+            unset($_SESSION['errors']);
+        }
     }
 
     // Login handler
@@ -88,7 +87,7 @@ class AuthController extends Controller
         exit();
     }
     
-    private function registerErrorHandling($errorHandler) : array
+    private function registerErrorHandling(AuthErrorHandler $errorHandler) : array
     {
         $errors = [];
 
@@ -98,20 +97,43 @@ class AuthController extends Controller
                 $errors['email-existed'][] = 'Email already existed!';
             }
 
+            // Email validate error handling
+            if ($errorHandler->emailValidate($this->user->getEmail())) {
+                $errors['email-invalid'][] = 'Invalid email!';
+            }
+
             // Password mismatch error handling
             if ($errorHandler->passwordMisMatch($this->user->getPassword(), $_POST['password-confirmation'])) {
                 $errors['pwd-mismatch'][] = 'Password mismatch!';
             }
 
-            // Empty input error handling
-            if (
-                $errorHandler->emptyFirstName($this->user->getFirstName()) ||
-                $errorHandler->emptyLastName($this->user->getLastName()) ||
-                $errorHandler->emptyEmail($this->user->getEmail()) ||
-                $errorHandler->emptyGender($this->user->getGender()) ||
-                $errorHandler->emptyPassword($this->user->getPassword())
-            ) {
-                $errors['empty-input'][] = 'This field can not be empty!';
+            /**
+             * Empty input error handling
+             */
+
+            // empty first name handling
+            if ($errorHandler->emptyFirstName($this->user->getFirstName())) {
+                $errors['empty-firstname'][] = 'First name can not be empty!';
+            }
+
+            // empty last name handling
+            if ($errorHandler->emptyLastName($this->user->getLastName())) {
+                $errors['empty-lastname'][] = 'Last name can not be empty!';
+            }
+
+            // empty email handling
+            if ($errorHandler->emptyEmail($this->user->getEmail())) {
+                $errors['empty-email'][] = 'Email can not be empty!';
+            }
+
+            // empty gender handling
+            if ($errorHandler->emptyGender($this->user->getGender())) {
+                $errors['empty-gender'][] = 'Gender can not be empty!';
+            }
+
+            // empty password handling
+            if ($errorHandler->emptyPassword($this->user->getPassword())) {
+                $errors['empty-password'][] = 'Password can not be empty!';
             }
 
             // Password is not confirm handling

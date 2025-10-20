@@ -1,5 +1,4 @@
 <?php
-
 function error($msg)
 {
     return $_SESSION['errors'][$msg][0];
@@ -28,8 +27,8 @@ function error($msg)
                             <input type="text" name="first_name" id="first_name" placeholder="First name">
 
                             <div class="error-msg">
-                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
-                                    <p><?= error('empty-input') ?></p>
+                                <?php if (!empty($_SESSION['errors']['empty-firstname'])): ?>
+                                    <p><?= error('empty-firstname') ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -39,8 +38,8 @@ function error($msg)
                             <input type="text" name="last_name" id="last_name" placeholder="Last name">
 
                             <div class="error-msg">
-                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
-                                    <p><?= error('empty-input') ?></p>
+                                <?php if (!empty($_SESSION['errors']['empty-lastname'])): ?>
+                                    <p><?= error('empty-lastname') ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -53,8 +52,20 @@ function error($msg)
                             <input type="text" name="email" id="email" placeholder="email">
 
                             <div class="error-msg">
-                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
-                                    <p><?= error('empty-input') ?></p>
+                                <?php if (!empty($_SESSION['errors']['empty-email'])): ?>
+                                    <p><?= error('empty-email') ?></p>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['email-existed'])): ?>
+                                    <p><?= error('email-existed') ?></p>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['email-invalid'])): ?>
+                                    <p><?= error('email-invalid') ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -74,8 +85,8 @@ function error($msg)
                             </div>
 
                             <div class="error-msg">
-                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
-                                    <p><?= error('empty-input') ?></p>
+                                <?php if (!empty($_SESSION['errors']['empty-gender'])): ?>
+                                    <p><?= error('empty-gender') ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -99,8 +110,8 @@ function error($msg)
                             <input type="password" name="password" id="password" placeholder="password">
 
                             <div class="error-msg">
-                                <?php if (!empty($_SESSION['errors']['empty-input'])): ?>
-                                    <p><?= error('empty-input') ?></p>
+                                <?php if (!empty($_SESSION['errors']['empty-password'])): ?>
+                                    <p><?= error('empty-password') ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -132,6 +143,7 @@ function error($msg)
 
             </form>
         </div>
+
     </div>
 </body>
 

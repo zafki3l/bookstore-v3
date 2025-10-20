@@ -17,6 +17,15 @@ class AuthErrorHandler
         }
     }
 
+    public function emailValidate($email) : bool 
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function passwordMisMatch($password, $password_confirmation) : bool
     {
         if ($password !== $password_confirmation) {

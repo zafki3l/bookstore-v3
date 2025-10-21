@@ -102,3 +102,8 @@ p {
     padding-top: 15px;
     color: #ca122f;
 }
+
+.error-msg p {
+    color: #ca122f;
+    font-weight: bold;
+}

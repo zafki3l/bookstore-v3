@@ -46,3 +46,8 @@ $router->post('/register', function () {
     $controller = new AuthController($user, $address);
     $controller->register();
 });
+
+$router->post('/logout', function () {
+    $controller = new AuthController();
+    $controller->logout();
+});

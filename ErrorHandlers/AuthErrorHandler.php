@@ -2,14 +2,12 @@
 
 class AuthErrorHandler
 {
+    // Check is email exist
     public function isEmailExist($email) : bool
     {
         $user = new User();
         $result = $user->getUserByEmail($email);
 
-        /**
-         * If result is not empty then redirect back to register form with error
-         */
         if (!empty($result)) {
             return true;
         } else {
@@ -17,6 +15,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check email is valid
     public function emailValidate($email) : bool 
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -26,6 +25,17 @@ class AuthErrorHandler
         }
     }
 
+    // Check password is correct
+    public function isPasswordCorrect($db_password, $user_input)
+    {
+        if (password_verify($user_input, $db_password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Check password is not mismatch
     public function passwordMisMatch($password, $password_confirmation) : bool
     {
         if ($password !== $password_confirmation) {
@@ -35,6 +45,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check empty first name
     public function emptyFirstName($first_name) : bool
     {
         if (empty($first_name)) {
@@ -44,6 +55,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check empty last name
     public function emptyLastName($last_name) : bool
     {
         if (empty($last_name)) {
@@ -53,6 +65,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check empty email
     public function emptyEmail($email) : bool
     {
         if (empty($email)) {
@@ -62,6 +75,7 @@ class AuthErrorHandler
         }
     }
 
+    //Check empty gender
     public function emptyGender($gender) : bool
     {
         if (empty($gender)) {
@@ -71,6 +85,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check empty password
     public function emptyPassword($password) : bool
     {
         if (empty($password)) {
@@ -80,6 +95,7 @@ class AuthErrorHandler
         }
     }
 
+    // Check is password confirm
     public function isPasswordConfirm($password_confirmation) : bool
     {
         if (empty($password_confirmation)) {

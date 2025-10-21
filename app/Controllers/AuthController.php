@@ -28,6 +28,9 @@ class AuthController extends Controller
         ];
 
         $this->renderView('layouts/main-layouts/homepage.layouts', $data);
+        if (isset($_SESSION['errors'])) {
+            unset($_SESSION['errors']);
+        }
     }
 
     // Shows register form
@@ -50,6 +53,18 @@ class AuthController extends Controller
     // Login handler
     public function login(string $email, string $password): void
     {
+        // Error handlers
+        $errorHandler = $this->errorHandler;
+
+        $this->user->setEmail($email);
+        $this->user->setPassword($password);
+
+        if (!empty($this->loginErrorHandling($errorHandler))) {
+            $_SESSION['errors'] = $this->loginErrorHandling($errorHandler);
+            header('Location: /' . PROJECT_NAME . '/login');
+            exit();
+        }
+
         $loginUser = $this->user->getUserByEmail($email);
 
         if ((empty($loginUser) || !password_verify($password, $loginUser[0]['password']))) {
@@ -58,9 +73,32 @@ class AuthController extends Controller
             exit();
         }
 
-        // Redirect to homepage if successfully
+        // Set session for user and Redirect to homepage if successfully
+        $_SESSION['user'] = [
+            'user_id' => $loginUser[0]['user_id'],
+            'address_id' => $loginUser[0]['address_id'],
+            'first_name' => $loginUser[0]['first_name'],
+            'last_name' => $loginUser[0]['last_name'],
+            'email' => $loginUser[0]['email'],
+            'gender' => $loginUser[0]['gender'],
+            'street' => $loginUser[0]['street'],
+            'city' => $loginUser[0]['city'],
+            'role' => $loginUser[0]['role']
+        ];
+
         header('Location: /' . PROJECT_NAME);
         exit();
+    }
+
+    // Logout handler
+    public function logout()
+    {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_destroy();
+
+            header('Location: /' . PROJECT_NAME . '/login');
+            exit();
+        }
     }
 
     // Register handler
@@ -86,6 +124,36 @@ class AuthController extends Controller
         header('Location: /' . PROJECT_NAME . '/login');
         exit();
     }
+
+    private function loginErrorHandling(AuthErrorHandler $errorHandler) : array 
+    {
+        $errors = [];
+
+        try {
+            // Email not exist handling
+            if (!$errorHandler->isEmailExist($this->user->getEmail())) {
+                $errors['email-not-existed'][] = 'Email is not exist! create a new account!';
+            }
+
+            // empty email handling
+            if ($errorHandler->emptyEmail($this->user->getEmail())) {
+                $errors['empty-email'][] = 'Email can not be empty!';
+            }
+
+            // Check password is correct
+            $userData = $this->user->getUserByEmail($this->user->getEmail());
+            $db_password = $userData[0]['password'];
+
+            if (!$errorHandler->isPasswordCorrect($db_password, $this->user->getPassword())) {
+                $errors['incorrect-password'][] = 'Password incorrect!';
+            }
+        } catch (Exception $e) {
+            // Exception error handling
+            $errors['exception-error'][] = $e->getMessage();
+        }
+
+        return $errors;
+    }
     
     private function registerErrorHandling(AuthErrorHandler $errorHandler) : array
     {
@@ -106,10 +174,6 @@ class AuthController extends Controller
             if ($errorHandler->passwordMisMatch($this->user->getPassword(), $_POST['password-confirmation'])) {
                 $errors['pwd-mismatch'][] = 'Password mismatch!';
             }
-
-            /**
-             * Empty input error handling
-             */
 
             // empty first name handling
             if ($errorHandler->emptyFirstName($this->user->getFirstName())) {

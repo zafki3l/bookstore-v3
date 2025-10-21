@@ -128,6 +128,12 @@ function error($msg)
                                     <p><?= error('pwd-confirm-error') ?></p>
                                 <?php endif; ?>
                             </div>
+
+                            <div class="error-msg">
+                                <?php if (!empty($_SESSION['errors']['pwd-mismatch'])): ?>
+                                    <p><?= error('pwd-mismatch') ?></p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

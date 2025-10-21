@@ -20,12 +20,12 @@
         </div>
 
         <div class="nav-right">
-            <?php if(isset($_SESSION['username'])): ?>
+            <?php if(isset($_SESSION['user'])): ?>
                 <li><a href="/oop-bookstore/views/myorder/all.myorder.php">Account</a></li>
                 <li>
                     <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
                 </li>
-                <form id="logoutForm" action="/oop-bookstore/actions/auth/logout.auth.php" method="post" style="display:none;">
+                <form id="logoutForm" action="/<?= PROJECT_NAME ?>/logout" method="post" style="display:none;">
                     <input type="hidden" name="logout" value="1">
                 </form>
             <?php else: ?>

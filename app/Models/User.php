@@ -77,7 +77,7 @@ class User extends Model
         }
     }
 
-    public function createUser() : int
+    public function createUser(): int
     {
         try {
             return $this->insert('users', [
@@ -93,7 +93,7 @@ class User extends Model
         }
     }
 
-    public function linkAddress($user_id, $address_id) : int
+    public function linkAddress($user_id, $address_id): int
     {
         try {
             return $this->insert('users_address', [
@@ -149,5 +149,50 @@ class User extends Model
     public function getUpdatedAt(): ?DateTime
     {
         return $this->updated_at;
+    }
+
+    public function setUserId(?int $user_id): void
+    {
+        $this->user_id = $user_id;
+    }
+
+    public function setFirstName(?string $first_name): void
+    {
+        $this->first_name = $first_name;
+    }
+
+    public function setLastName(?string $last_name): void
+    {
+        $this->last_name = $last_name;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function setGender(?string $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function setRole(?int $role): void
+    {
+        $this->role = $role;
+    }
+
+    public function setCreatedAt(?DateTime $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    public function setUpdatedAt(?DateTime $updated_at): void
+    {
+        $this->updated_at = $updated_at;
     }
 }

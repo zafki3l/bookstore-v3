@@ -11,12 +11,14 @@
                     <a href="#">History</a>
                 </div>
             <li><a href="/<?= PROJECT_NAME ?>">Homepage</a></li>
-            <!-- <?php if($role == 3): ?> <!--admin-->
-                    <li><a href="/oop-bookstore/views/admin/dashboard.admin.php?page_number=1">Admin Dashboard</a></li> <!--show dashboard for admin-->
-                    <li><a href="/oop-bookstore/views/staff/dashboard.staff.php">Staff Dashboard</a></li>
-            <?php elseif($role == 2): ?>
-                    <li><a href="../staff/dashboard.php">Staff Dashboard</a></li> <!--Show dashboard for staff-->
-            <?php endif; ?> -->
+            <?php if (isset($_SESSION['user'])): ?>
+                <?php if ($_SESSION['user']['role'] == 3): ?> <!--admin-->
+                        <li><a href="">Admin Dashboard</a></li> <!--show dashboard for admin-->
+                        <li><a href="">Staff Dashboard</a></li>
+                <?php elseif ($_SESSION['user']['role'] == 2): ?>
+                        <li><a href="">Staff Dashboard</a></li> <!--Show dashboard for staff-->
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <div class="nav-right">

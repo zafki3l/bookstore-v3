@@ -1,71 +1,73 @@
 <?php
 
+namespace Core;
+
+use Configs\Database;
+use PDO;
+use PDOStatement;
+
 abstract class Model
 {
-    protected Database $db;
+    public function __construct(protected Database $db) {}
 
-    public function __construct(Database $db = new Database())
+    public function getAll(string $sql): array
     {
-        $this->db = $db;
-    }
+        $stmt = $this->executeQuery($sql);
 
-    public function getAll(string $sql)
-    {
-        $conn = $this->db->connect();
-
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        
-        $data = [];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $data[] = $row;
-        }
+        $data = $this->fetchAll($stmt);
 
         $stmt = null;
-        $conn = null;
 
         return $data;
     }
 
-    public function getByParams(array $params, string $sql)
+    public function getByParams(array $params, string $sql): array
     {
-        $conn = $this->db->connect();
+        $stmt = $this->executeQuery($sql, $params);
 
-        $stmt = $conn->prepare($sql);
-
-        $stmt->execute($params);
-
-        $data = [];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $data[] = $row;
-        }
+        $data = $this->fetchAll($stmt);
 
         $stmt = null;
-        $conn = null;
 
         return $data;
     }
 
-    public function insert(string $table, array $data) : int
+    public function insert(string $table, array $data): int
     {
+        $columns = implode(', ', array_keys($data));
+        $placeholders = implode(', ', array_fill(0, count($data), '?'));
+
+        $sql = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
+
         $conn = $this->db->connect();
-
-        $column = implode(', ', array_keys($data)); // column1, column2, column3
-        $placeholders = implode(', ', array_fill(0, count(array_keys($data)), '?')); // ?, ?, ?
-
-        $sql = "INSERT INTO " . $table . "({$column}) VALUES ({$placeholders})";
-
         $stmt = $conn->prepare($sql);
-
         $stmt->execute(array_values($data));
 
         $id = $conn->lastInsertId();
 
         $stmt = null;
-        $conn = null;
 
         return $id;
+    }
+
+    private function executeQuery(string $sql, array $params = []): PDOStatement
+    {
+        $conn = $this->db->connect();
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt;
+    }
+
+    private function fetchAll(PDOStatement $stmt) : array
+    {
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 }

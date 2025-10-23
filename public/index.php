@@ -1,11 +1,14 @@
 <?php
 declare(strict_types=1);
 
+use Core\Router;
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once '../fileLoader.php';
+require_once '../bootstrap/app.php';
 
 $router = new Router();
 

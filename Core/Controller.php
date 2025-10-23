@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 abstract class Controller
 {	
     protected function renderView(string $view, array $data = []): void

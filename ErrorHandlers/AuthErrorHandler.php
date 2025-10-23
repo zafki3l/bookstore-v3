@@ -1,11 +1,12 @@
 <?php
 
+namespace ErrorHandlers;
+
 class AuthErrorHandler
 {
     // Check is email exist
-    public function isEmailExist($email) : bool
+    public function isEmailExist($email, $user) : bool
     {
-        $user = new User();
         $result = $user->getUserByEmail($email);
 
         if (!empty($result)) {

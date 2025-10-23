@@ -1,21 +1,12 @@
 <?php
 
-foreach (glob('../configs/*.php') as $filename) {
-    require_once $filename;
-}
+require_once '../Configs/config.php';
 
-foreach (glob(BASE_PATH . '/Core/*.php') as $filename) {
-    require_once $filename;
-}
-
-foreach (glob(BASE_PATH . '/app/Models/*.php') as $filename) {
-    require_once $filename;
-}
-
-foreach (glob(BASE_PATH . '/app/Controllers/*.php') as $filename) {
-    require_once $filename;
-}
-
-foreach (glob(BASE_PATH . '/ErrorHandlers/*.php') as $filename) {
-    require_once $filename;
-}
+spl_autoload_register(function ($class) {
+    $path = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+    if (file_exists($path)) {
+        require_once $path;
+    } else {
+        throw new Exception("Cannot load class: $class ($path)");
+    }
+});

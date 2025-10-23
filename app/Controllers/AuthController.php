@@ -1,20 +1,20 @@
 <?php
 
+namespace App\Controllers;
+
+use Core\Controller;
+use App\Models\User;
+use App\Models\Address;
+use ErrorHandlers\AuthErrorHandler;
+use Exception;
+
 class AuthController extends Controller
 {
-    private User $user;
-    private Address $address;
-    private AuthErrorHandler $errorHandler;
-
     public function __construct(
-        User $user = new User(),
-        Address $address = new Address(),
-        AuthErrorHandler $errorHandler = new AuthErrorHandler()
-    ) {
-        $this->user = $user;
-        $this->address = $address;
-        $this->errorHandler = $errorHandler;
-    }
+        private User $user,
+        private Address $address,
+        private AuthErrorHandler $authErrorHandler
+    ) {}
 
     // Shows login form
     public function showLogin(): void
@@ -54,13 +54,13 @@ class AuthController extends Controller
     public function login(string $email, string $password): void
     {
         // Error handlers
-        $errorHandler = $this->errorHandler;
+        $authErrorHandler = $this->authErrorHandler;
 
-        $this->user->setEmail($email);
-        $this->user->setPassword($password);
+        $this->user->email = $email;
+        $this->user->password = $password;
 
-        if (!empty($this->loginErrorHandling($errorHandler))) {
-            $_SESSION['errors'] = $this->loginErrorHandling($errorHandler);
+        if (!empty($this->loginErrorHandling($authErrorHandler))) {
+            $_SESSION['errors'] = $this->loginErrorHandling($authErrorHandler);
             header('Location: /' . PROJECT_NAME . '/login');
             exit();
         }
@@ -104,11 +104,21 @@ class AuthController extends Controller
     // Register handler
     public function register(): void
     {
-        // Error handlers
-        $errorHandler = $this->errorHandler;
+        // Binding parameters
+        $this->user->first_name = trim($_POST['first_name']);
+        $this->user->last_name = trim($_POST['last_name']);
+        $this->user->email = trim($_POST['email']);
+        $this->user->gender = trim($_POST['gender']);
+        $this->user->password = trim($_POST['password']);
 
-        if (!empty($this->registerErrorHandling($errorHandler))) {
-            $_SESSION['errors'] = $this->registerErrorHandling($errorHandler);
+        $this->address->street = trim($_POST['street']);
+        $this->address->city = trim($_POST['city']);
+        
+        // Error handlers
+        $authErrorHandler = $this->authErrorHandler;
+
+        if (!empty($this->registerErrorHandling($authErrorHandler))) {
+            $_SESSION['errors'] = $this->registerErrorHandling($authErrorHandler);
             header('Location: /' . PROJECT_NAME . '/register');
             exit();
         }
@@ -125,26 +135,26 @@ class AuthController extends Controller
         exit();
     }
 
-    private function loginErrorHandling(AuthErrorHandler $errorHandler) : array 
+    private function loginErrorHandling(AuthErrorHandler $authErrorHandler) : array 
     {
         $errors = [];
 
         try {
             // Email not exist handling
-            if (!$errorHandler->isEmailExist($this->user->getEmail())) {
+            if (!$authErrorHandler->isEmailExist($this->user->email, $this->user)) {
                 $errors['email-not-existed'][] = 'Email is not exist! create a new account!';
             }
 
             // empty email handling
-            if ($errorHandler->emptyEmail($this->user->getEmail())) {
+            if ($authErrorHandler->emptyEmail($this->user->email)) {
                 $errors['empty-email'][] = 'Email can not be empty!';
             }
 
             // Check password is correct
-            $userData = $this->user->getUserByEmail($this->user->getEmail());
+            $userData = $this->user->getUserByEmail($this->user->email);
             $db_password = $userData[0]['password'];
 
-            if (!$errorHandler->isPasswordCorrect($db_password, $this->user->getPassword())) {
+            if (!$authErrorHandler->isPasswordCorrect($db_password, $this->user->password)) {
                 $errors['incorrect-password'][] = 'Password incorrect!';
             }
         } catch (Exception $e) {
@@ -155,53 +165,53 @@ class AuthController extends Controller
         return $errors;
     }
     
-    private function registerErrorHandling(AuthErrorHandler $errorHandler) : array
+    private function registerErrorHandling(AuthErrorHandler $authErrorHandler) : array
     {
         $errors = [];
 
         try {
             // Email exist error handling
-            if ($errorHandler->isEmailExist($this->user->getEmail())) {
+            if ($authErrorHandler->isEmailExist($this->user->email, $this->user)) {
                 $errors['email-existed'][] = 'Email already existed!';
             }
 
             // Email validate error handling
-            if ($errorHandler->emailValidate($this->user->getEmail())) {
+            if ($authErrorHandler->emailValidate($this->user->email)) {
                 $errors['email-invalid'][] = 'Invalid email!';
             }
 
             // Password mismatch error handling
-            if ($errorHandler->passwordMisMatch($this->user->getPassword(), $_POST['password-confirmation'])) {
+            if ($authErrorHandler->passwordMisMatch($this->user->password, $_POST['password-confirmation'])) {
                 $errors['pwd-mismatch'][] = 'Password mismatch!';
             }
 
             // empty first name handling
-            if ($errorHandler->emptyFirstName($this->user->getFirstName())) {
+            if ($authErrorHandler->emptyFirstName($this->user->first_name)) {
                 $errors['empty-firstname'][] = 'First name can not be empty!';
             }
 
             // empty last name handling
-            if ($errorHandler->emptyLastName($this->user->getLastName())) {
+            if ($authErrorHandler->emptyLastName($this->user->last_name)) {
                 $errors['empty-lastname'][] = 'Last name can not be empty!';
             }
 
             // empty email handling
-            if ($errorHandler->emptyEmail($this->user->getEmail())) {
+            if ($authErrorHandler->emptyEmail($this->user->email)) {
                 $errors['empty-email'][] = 'Email can not be empty!';
             }
 
             // empty gender handling
-            if ($errorHandler->emptyGender($this->user->getGender())) {
+            if ($authErrorHandler->emptyGender($this->user->gender)) {
                 $errors['empty-gender'][] = 'Gender can not be empty!';
             }
 
             // empty password handling
-            if ($errorHandler->emptyPassword($this->user->getPassword())) {
+            if ($authErrorHandler->emptyPassword($this->user->password)) {
                 $errors['empty-password'][] = 'Password can not be empty!';
             }
 
             // Password is not confirm handling
-            if ($errorHandler->isPasswordConfirm($_POST['password-confirmation'])) {
+            if ($authErrorHandler->isPasswordConfirm($_POST['password-confirmation'])) {
                 $errors['pwd-confirm-error'][] = 'Please confirm your password!';
             }
         } catch (Exception $e) {

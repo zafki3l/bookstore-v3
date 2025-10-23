@@ -1,5 +1,10 @@
 <?php
 
+namespace Configs;
+
+use PDO;
+use PDOException;
+
 class Database
 {
     public function connect()

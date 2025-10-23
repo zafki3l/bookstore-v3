@@ -1,21 +1,23 @@
 <?php
 
+namespace App\Models;
+
+use Core\Model;
+use Configs\Database;
+use PDOException;
+use Traits\ModelTrait;
+
 class Address extends Model
 {
-    private ?int $address_id;
-    private ?string $street;
-    private ?string $city;
+    use ModelTrait;
+    
+    private int $address_id;
+    private string $street;
+    private string $city;
 
-    public function __construct(
-        Database $db = new Database(),
-        ?int $address_id = null,
-        ?string $street = null,
-        ?string $city = null
-    ) {
+    public function __construct(Database $db) 
+    {
         parent::__construct($db);
-        $this->address_id = $address_id;
-        $this->street = $street;
-        $this->city = $city;
     }
 
     public function createAddress() : int
@@ -29,20 +31,5 @@ class Address extends Model
             print $e->getMessage();
             return 0;
         }
-    }
-
-    public function getAddressId(): ?int
-    {
-        return $this->address_id;
-    }
-
-    public function getStreet(): ?string
-    {
-        return $this->street;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
     }
 }

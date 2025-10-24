@@ -9,100 +9,60 @@ class AuthErrorHandler
     {
         $result = $user->getUserByEmail($email);
 
-        if (!empty($result)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !empty($result); 
     }
 
-    // Check email is valid
-    public function emailValidate($email) : bool 
+    // Check email is invalid
+    public function isEmailInvalid($email) : bool 
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !filter_var($email, FILTER_VALIDATE_EMAIL); 
     }
 
     // Check password is correct
     public function isPasswordCorrect($db_password, $user_input)
     {
-        if (password_verify($user_input, $db_password)) {
-            return true;
-        } else {
-            return false;
-        }
+        return password_verify($user_input, $db_password);
     }
 
     // Check password is not mismatch
     public function passwordMisMatch($password, $password_confirmation) : bool
     {
-        if ($password !== $password_confirmation) {
-            return true;
-        } else {
-            return false;
-        }
+        return $password !== $password_confirmation;
     }
 
     // Check empty first name
     public function emptyFirstName($first_name) : bool
     {
-        if (empty($first_name)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($first_name); 
     }
 
     // Check empty last name
     public function emptyLastName($last_name) : bool
     {
-        if (empty($last_name)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($last_name);
     }
 
     // Check empty email
     public function emptyEmail($email) : bool
     {
-        if (empty($email)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($email); 
     }
 
     //Check empty gender
     public function emptyGender($gender) : bool
     {
-        if (empty($gender)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($gender);
     }
 
     // Check empty password
     public function emptyPassword($password) : bool
     {
-        if (empty($password)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($password);
     }
 
     // Check is password confirm
     public function isPasswordConfirm($password_confirmation) : bool
     {
-        if (empty($password_confirmation)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($password_confirmation);
     }
 }

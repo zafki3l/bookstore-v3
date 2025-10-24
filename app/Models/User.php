@@ -11,6 +11,12 @@ use Traits\ModelTrait;
 class User extends Model
 {
     use ModelTrait;
+
+    //Constants
+    const ROLE_GUEST = 0;
+    const ROLE_USER = 1;
+    const ROLE_STAFF = 2;
+    const ROLE_ADMIN = 3;
     
     // Attributes
     private int $user_id;

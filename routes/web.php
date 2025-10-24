@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\HomeController;
-use App\Controllers\AuthController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 // Homepage
 $router->get('/', [HomeController::class, 'index']);

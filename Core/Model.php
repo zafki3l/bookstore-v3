@@ -8,9 +8,9 @@ use PDOStatement;
 
 abstract class Model
 {
-    public function __construct(protected Database $db) {}
+    protected function __construct(protected Database $db) {}
 
-    public function getAll(string $sql): array
+    protected function getAll(string $sql): array
     {
         $stmt = $this->executeQuery($sql);
 
@@ -21,7 +21,7 @@ abstract class Model
         return $data;
     }
 
-    public function getByParams(array $params, string $sql): array
+    protected function getByParams(array $params, string $sql): array
     {
         $stmt = $this->executeQuery($sql, $params);
 
@@ -32,7 +32,7 @@ abstract class Model
         return $data;
     }
 
-    public function insert(string $table, array $data): int
+    protected function insert(string $table, array $data): int
     {
         $columns = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));

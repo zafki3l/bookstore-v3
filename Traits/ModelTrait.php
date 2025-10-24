@@ -15,4 +15,13 @@ trait ModelTrait
             $this->$name = $value;
         }
     }
+
+    public function fill(array $data) : void
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
 }

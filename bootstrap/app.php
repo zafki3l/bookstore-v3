@@ -1,7 +1,7 @@
 <?php
 
-use App\Controllers\AuthController;
-use App\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Models\Address;
 use App\Models\User;
 use Configs\Database;

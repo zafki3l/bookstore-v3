@@ -6,11 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- SEARCH BAR -->
-    <?php include VIEW_PATH . "/layouts/parts/homepage/searchbar.homepage.php" ?>
-
     <div class="main-content">
-        <h1>Hello <?= $_SESSION['user']['last_name'] ?? 'Guest' ?></h1>
+        <h1>Hello</h1>
     </div>
 </body>
 </html>

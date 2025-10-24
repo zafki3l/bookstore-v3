@@ -18,21 +18,38 @@ class Router
     
     public function dispatch(string $path, string $method) : void
     {
-        if (!isset($this->routes[$method][$path])) {
-            die('404 error');
+        $result = $this->match($path, $method);
+
+        if (!$result) {
+            die('404 Page not found!');
         }
 
-        $callback = $this->routes[$method][$path];
+        [$callback, $params] = $result;
 
         if (is_array($callback)) {
             [$controller, $action] = $callback;
 
             $controller = App::resolve($controller);
-            $controller->$action();
-
+            
+            call_user_func_array([$controller, $action], $params);
             return;
         }
 
-        call_user_func($callback);
+        call_user_func_array($callback, $params);
+    }
+
+    private function match(string $path, string $method) : mixed
+    {
+        foreach ($this->routes[$method] as $route => $callback) {
+            $pattern = preg_replace('#\{[^/]+\}#', '([^/]+)', $route);
+
+            if (preg_match("#^$pattern$#", $path, $matches)) {
+                array_shift($matches);
+
+                return [$callback, $matches];
+            }
+        }
+
+        return null;
     }
 }

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Middlewares\EnsureAdmin;
 use Core\Controller;
 
+/**
+ * Class Admin Controller
+ * Handles User Management and other Admin logics
+ */
 class AdminController extends Controller
 {
     public function __construct(private EnsureAdmin $ensureAdmin) 

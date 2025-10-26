@@ -4,21 +4,21 @@ namespace Core;
 
 abstract class Controller
 {	
-    protected function renderView(string $view, array $data = []): void
+    private function renderView(string $view, array $data = []): void
     {
         require_once VIEW_PATH . $view . '.php';
     }
 
-    protected function view(string $view, string $layout_view, string $title)
+    protected function view(string $view, string $layout_view, string $title, array $data = [])
     {
         ob_start();
-        $this->renderView($view);
+        $this->renderView($view, $data);
 
-        $data = [
+        $view_data = [
             'title' => $title,
-            'content' => ob_get_clean()
+            'content' => ob_get_clean(),
         ];
 
-        $this->renderView($layout_view, $data);
+        $this->renderView($layout_view, $view_data);
     }
 }

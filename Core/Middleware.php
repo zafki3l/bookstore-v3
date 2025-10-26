@@ -2,8 +2,6 @@
 
 namespace Core;
 
-use Traits\HttpResponseTrait;
-
 class Middleware
 {
     public static function ensureAuth() : bool

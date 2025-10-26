@@ -84,7 +84,8 @@ class User extends Model
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'gender' => $this->gender,
-                'password' => password_hash($this->password, PASSWORD_DEFAULT)
+                'password' => password_hash($this->password, PASSWORD_DEFAULT),
+                'role' => $this->role
             ]);
         } catch (PDOException $e) {
             print $e->getMessage();

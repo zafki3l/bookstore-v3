@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middlewares\EnsureAdmin;
+use App\Http\Requests\AdminRequest;
+use App\Models\Address;
 use App\Models\User;
 use Core\Controller;
+use Traits\HttpResponseTrait;
 
 /**
  * Class Admin Controller
@@ -12,9 +15,12 @@ use Core\Controller;
  */
 class AdminController extends Controller
 {
+    use HttpResponseTrait;
+
     public function __construct(
         private EnsureAdmin $ensureAdmin,
-        private User $user
+        private User $user,
+        private Address $address
     ) {
         $this->ensureAdmin->handle();
     }
@@ -35,5 +41,27 @@ class AdminController extends Controller
         );
     }
 
-    
+    public function showAddUser() : void
+    {
+        $this->view(
+            'admin/addUser',
+            'layouts/main-layouts/admin.layouts',
+            'Create new user',
+        );
+    }
+
+    public function addUser(AdminRequest $adminRequest = new AdminRequest())
+    {
+        $request = $adminRequest->addUserRequest();
+        
+        $this->user->fill($request);
+        $user_id = $this->user->createUser();
+
+        $this->address->fill($request);
+        $address_id = $this->address->createAddress();
+
+        $this->user->linkAddress($user_id, $address_id);
+
+        $this->redirect('/admin/dashboard');
+    }
 }

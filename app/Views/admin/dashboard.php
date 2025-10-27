@@ -3,54 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/admin/dashboard.css">
     <title>Document</title>
 </head>
 <body>
     <div class="main-content">
-        <table>
-            <thead>
-                <tr>
-                    <th>USER ID</th>
-                    <th>FIRST NAME</th>
-                    <th>LAST NAME</th>
-                    <th>EMAIL</th>
-                    <th>GENDER</th>
-                    <th>STREET</th>
-                    <th>CITY</th>
-                    <th>ROLE</th>
-                    <th>CREATED AT</th>
-                    <th>UPDATED AT</th>
-                </tr>
-            </thead>
+        <div class="dashboard-container">
+            <!-- DASHBOARD HEADER -->
+            <div class="dashboard-header">
+                <div class="header-text">
+                    <h2>ADMIN DASHBOARD</h1>
+                    <h3>WELCOME <?php echo htmlspecialchars($_SESSION['user']['last_name']) ?></h3>
+                </div>
 
-            <tbody>
-                <?php foreach ($data as $user): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($user['user_id']) ?></td>
-                        <td><?= htmlspecialchars($user['first_name']) ?></td>
-                        <td><?= htmlspecialchars($user['last_name']) ?></td>
-                        <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= htmlspecialchars($user['gender']) ?></td>
-                        <td><?= htmlspecialchars($user['street']) ?></td>
-                        <td><?= htmlspecialchars($user['city']) ?></td>
-                        <td>
-                            <?php 
-                            switch ($user['role']) {
-                                case 0: $roleName = 'Guest'; break;
-                                case 1: $roleName = 'Customer'; break;
-                                case 2: $roleName = 'Staff'; break;
-                                case 3: $roleName = 'Admin'; break;
-                                default: $roleName = 'Unknown';
-                            }
-                            echo htmlspecialchars($roleName); 
-                            ?>
-                        </td>
-                        <td><?= htmlspecialchars($user['created_at']) ?></td>
-                        <td><?= htmlspecialchars($user['updated_at']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                <!-- Searchbar and Add User -->
+                <div class="dashboard-search-add">
+                    <?php include_once 'searchUser.php' ?>
+                    <a href="/<?= PROJECT_NAME ?>/admin/users/create">Add user</a>
+                </div>
+            </div>
+
+            <!-- DASHBOARD USER MANAGEMENT TABLE -->
+            <div class="dashboard-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>USER ID</th>
+                            <th>FIRST NAME</th>
+                            <th>LAST NAME</th>
+                            <th>EMAIL</th>
+                            <th>GENDER</th>
+                            <th>STREET</th>
+                            <th>CITY</th>
+                            <th>ROLE</th>
+                            <th>CREATED AT</th>
+                            <th>UPDATED AT</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php foreach ($data as $user): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($user['user_id']) ?></td>
+                                <td><?= htmlspecialchars($user['first_name']) ?></td>
+                                <td><?= htmlspecialchars($user['last_name']) ?></td>
+                                <td><?= htmlspecialchars($user['email']) ?></td>
+                                <td><?= htmlspecialchars($user['gender']) ?></td>
+                                <td><?= htmlspecialchars($user['street']) ?></td>
+                                <td><?= htmlspecialchars($user['city']) ?></td>
+                                <td>
+                                    <?php 
+                                    switch ($user['role']) {
+                                        case 0: $roleName = 'Guest'; break;
+                                        case 1: $roleName = 'Customer'; break;
+                                        case 2: $roleName = 'Staff'; break;
+                                        case 3: $roleName = 'Admin'; break;
+                                        default: $roleName = 'Unknown';
+                                    }
+                                    echo htmlspecialchars($roleName); 
+                                    ?>
+                                </td>
+                                <td><?= htmlspecialchars($user['created_at']) ?></td>
+                                <td><?= htmlspecialchars($user['updated_at']) ?></td>
+                                <td>
+                                    <a href="/<?= PROJECT_NAME ?>/admin/users/<?= $user['user_id'] ?>/edit">Edit</a>
+                                    <a href="">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 </html>

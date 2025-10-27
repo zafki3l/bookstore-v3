@@ -6,7 +6,7 @@ use App\Http\Requests\AuthRequest;
 use Core\Controller;
 use App\Models\User;
 use App\Models\Address;
-use ErrorHandlers\AuthErrorHandler;
+use ErrorHandlers\UserErrorHandler;
 use Exception;
 use Traits\HttpResponseTrait;
 
@@ -22,7 +22,7 @@ class AuthController extends Controller
     public function __construct(
         private User $user,
         private Address $address,
-        private AuthErrorHandler $authErrorHandler
+        private UserErrorHandler $userErrorHandler
     ) {}
 
     /**
@@ -70,7 +70,7 @@ class AuthController extends Controller
         $request = $authRequest->loginRequest();
 
         // Error handling
-        $errors = $this->loginErrorHandling($this->authErrorHandler, $request);
+        $errors = $this->loginErrorHandling($this->userErrorHandler, $request);
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             $this->back();
@@ -127,7 +127,7 @@ class AuthController extends Controller
         $request = $authRequest->registerRequest();
 
         // Error handling
-        $errors = $this->registerErrorHandling($this->authErrorHandler, $request);
+        $errors = $this->registerErrorHandling($this->userErrorHandler, $request);
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             $this->back();
@@ -171,10 +171,10 @@ class AuthController extends Controller
 
     /**
      * Handles login errors
-     * @param \ErrorHandlers\AuthErrorHandler $authErrorHandler
+     * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @return array<array>
      */
-    private function loginErrorHandling(AuthErrorHandler $authErrorHandler, array $request) : array 
+    private function loginErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array 
     {
         $errors = [];
 
@@ -183,26 +183,26 @@ class AuthController extends Controller
             $user_role = $userData[0]['role'];
 
             // Email not exist handling
-            if (!$authErrorHandler->isEmailExist($request['email'], $this->user) || 
+            if (!$userErrorHandler->isEmailExist($request['email'], $this->user) || 
                 $user_role == User::ROLE_GUEST) {
-                $errors['email-not-existed'][] = 'Email is not exist! create a new account!';
+                $errors['email-not-existed'] = 'Email is not exist! create a new account!';
             }
 
             // empty email handling
-            if ($authErrorHandler->emptyEmail($request['email'])) {
-                $errors['empty-email'][] = 'Email can not be empty!';
+            if ($userErrorHandler->emptyInput($request['email'])) {
+                $errors['empty-email'] = 'Email can not be empty!';
             }
 
             // Check password is correct
             
             $user_password = $userData[0]['password'];
 
-            if (!$authErrorHandler->isPasswordCorrect($user_password, $request['password'])) {
-                $errors['incorrect-password'][] = 'Password incorrect!';
+            if (!$userErrorHandler->isPasswordCorrect($user_password, $request['password'])) {
+                $errors['incorrect-password'] = 'Password incorrect!';
             }
         } catch (Exception $e) {
             // Exception error handling
-            $errors['exception-error'][] = $e->getMessage();
+            $errors['exception-error'] = $e->getMessage();
         }
 
         return $errors;
@@ -210,61 +210,61 @@ class AuthController extends Controller
     
     /**
      * Handles register errors
-     * @param \ErrorHandlers\AuthErrorHandler $authErrorHandler
+     * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @return array<array>
      */
-    private function registerErrorHandling(AuthErrorHandler $authErrorHandler, array $request) : array
+    private function registerErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array
     {
         $errors = [];
 
         try {
             // Email exist error handling
-            if ($authErrorHandler->isEmailExist($request['email'], $this->user)) {
-                $errors['email-existed'][] = 'Email already existed!';
+            if ($userErrorHandler->isEmailExist($request['email'], $this->user)) {
+                $errors['email-existed'] = 'Email already existed!';
             }
 
             // Email validate error handling
-            if ($authErrorHandler->isEmailInvalid($request['email'])) {
-                $errors['email-invalid'][] = 'Invalid email!';
+            if ($userErrorHandler->isEmailInvalid($request['email'])) {
+                $errors['email-invalid'] = 'Invalid email!';
             }
 
             // Password mismatch error handling
-            if ($authErrorHandler->passwordMisMatch($request['password'], $_POST['password-confirmation'])) {
-                $errors['pwd-mismatch'][] = 'Password mismatch!';
+            if ($userErrorHandler->passwordMisMatch($request['password'], $_POST['password-confirmation'])) {
+                $errors['pwd-mismatch'] = 'Password mismatch!';
             }
 
             // empty first name handling
-            if ($authErrorHandler->emptyFirstName($request['first_name'])) {
-                $errors['empty-firstname'][] = 'First name can not be empty!';
+            if ($userErrorHandler->emptyInput($request['first_name'])) {
+                $errors['empty-firstname'] = 'First name can not be empty!';
             }
 
             // empty last name handling
-            if ($authErrorHandler->emptyLastName($request['last_name'])) {
-                $errors['empty-lastname'][] = 'Last name can not be empty!';
+            if ($userErrorHandler->emptyInput($request['last_name'])) {
+                $errors['empty-lastname'] = 'Last name can not be empty!';
             }
 
             // empty email handling
-            if ($authErrorHandler->emptyEmail($request['email'])) {
-                $errors['empty-email'][] = 'Email can not be empty!';
+            if ($userErrorHandler->emptyInput($request['email'])) {
+                $errors['empty-email'] = 'Email can not be empty!';
             }
 
             // empty gender handling
-            if ($authErrorHandler->emptyGender($request['gender'])) {
-                $errors['empty-gender'][] = 'Gender can not be empty!';
+            if ($userErrorHandler->emptyInput($request['gender'])) {
+                $errors['empty-gender'] = 'Gender can not be empty!';
             }
 
             // empty password handling
-            if ($authErrorHandler->emptyPassword($request['password'])) {
-                $errors['empty-password'][] = 'Password can not be empty!';
+            if ($userErrorHandler->emptyInput($request['password'])) {
+                $errors['empty-password'] = 'Password can not be empty!';
             }
 
             // Password is not confirm handling
-            if ($authErrorHandler->isPasswordConfirm($_POST['password-confirmation'])) {
-                $errors['pwd-confirm-error'][] = 'Please confirm your password!';
+            if ($userErrorHandler->isPasswordConfirm($_POST['password-confirmation'])) {
+                $errors['pwd-confirm-error'] = 'Please confirm your password!';
             }
         } catch (Exception $e) {
             // Exception error handling
-            $errors['exception-error'][] = $e->getMessage();
+            $errors['exception-error'] = $e->getMessage();
         }
 
         return $errors;

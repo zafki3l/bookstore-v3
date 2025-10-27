@@ -32,4 +32,22 @@ class Address extends Model
             return 0;
         }
     }
+
+    public function updateAddressById(int $address_id) : void
+    {
+        $params = [
+            'street' => $this->street,
+            'city' => $this->city,
+            'address_id' => $address_id
+        ];
+        $sql = "UPDATE address
+                SET street = ?, city = ?
+                WHERE id = ?";
+
+        try {
+            $this->update($sql, $params);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
+    }
 }

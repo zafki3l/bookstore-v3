@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Class AuthRequest
+ * Get user requests
+ */
 class AuthRequest
 {
     public function loginRequest() : array

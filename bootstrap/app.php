@@ -7,7 +7,7 @@ use App\Models\User;
 use Configs\Database;
 use Core\Container;
 use Core\App;
-use ErrorHandlers\AuthErrorHandler;
+use ErrorHandlers\UserErrorHandler;
 
 $container = new Container();
 
@@ -27,15 +27,15 @@ $container->bind(Address::class, function ($container) {
     );
 });
 
-$container->bind(AuthErrorHandler::class, function () {
-    return new AuthErrorHandler();
+$container->bind(UserErrorHandler::class, function () {
+    return new UserErrorHandler();
 });
 
 $container->bind(AuthController::class, function ($container) {
     return new AuthController(
         $container->resolve(User::class),
         $container->resolve(Address::class),
-        $container->resolve(AuthErrorHandler::class)
+        $container->resolve(UserErrorHandler::class)
     );
 });
 

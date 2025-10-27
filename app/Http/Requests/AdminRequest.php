@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests;
 
+/**
+ * Class AdminRequest
+ * Get user requests
+ */
 class AdminRequest
 {
     public function addUserRequest() : array

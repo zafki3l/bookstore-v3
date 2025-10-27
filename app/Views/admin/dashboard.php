@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/admin/dashboard.css">
     <title>Document</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
                 <!-- Searchbar and Add User -->
                 <div class="dashboard-search-add">
                     <?php include_once 'searchUser.php' ?>
-                    <a href="/<?= PROJECT_NAME ?>/admin/add-user">Add user</a>
+                    <a href="/<?= PROJECT_NAME ?>/admin/users/create">Add user</a>
                 </div>
             </div>
 

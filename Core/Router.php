@@ -15,6 +15,16 @@ class Router
     {
         $this->routes['POST'][$path] = $callback;
     }
+
+    public function put(string $path, mixed $callback) : void
+    {
+        $this->routes['PUT'][$path] = $callback;
+    }
+
+    public function delete(string $path, mixed $callback) : void
+    {
+        $this->routes['DELETE'][$path] = $callback;
+    }
     
     public function dispatch(string $path, string $method) : void
     {

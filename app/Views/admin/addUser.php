@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/admin/addUser.css">
 </head>
 
 <body>
@@ -14,24 +15,46 @@
             </div>
 
             <div class="container-content">
-                <form action="/<?= PROJECT_NAME ?>/admin/add-user" method="post">
+                <form action="/<?= PROJECT_NAME ?>/admin/users" method="post">
                     <div class="form-group">
                         <label for="first_name">First name: </label>
-                        <input type="text" id="first_name" name="first_name" placeholder="First_name">
+                        <input type="text" id="first_name" name="first_name" placeholder="First name">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-firstname'])): ?>
+                                <p><?= error('empty-firstname') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="last_name">Last name: </label>
-                        <input type="text" id="last_name" name="last_name" placeholder="Last_name">
+                        <input type="text" id="last_name" name="last_name" placeholder="Last name">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-lastname'])): ?>
+                                <p><?= error('empty-lastname') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email: </label>
                         <input type="text" id="email" name="email" placeholder="Email">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-email'])): ?>
+                                <p><?= error('empty-email') ?></p>
+                            <?php elseif (!empty($_SESSION['errors']['email-invalid'])): ?>
+                                <p><?= error('email-invalid') ?></p>
+                            <?php elseif (!empty($_SESSION['errors']['email-existed'])): ?>
+                                <p><?= error('email-existed') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="gender">Gender: *</label>
+                        <label for="gender">Gender:</label>
                         <div class="gender-group">
                             <label>
                                 <input type="radio" name="gender" value="male"> Male
@@ -42,6 +65,12 @@
                             <label>
                                 <input type="radio" name="gender" value="other"> Other
                             </label>
+                        </div>
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-gender'])): ?>
+                                <p><?= error('empty-gender') ?></p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -58,6 +87,12 @@
                     <div class="form-group">
                         <label for="password">Password: </label>
                         <input type="password" id="password" name="password" placeholder="Password">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-password'])): ?>
+                                <p><?= error('empty-password') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -70,7 +105,7 @@
                     </div>
 
                     <div class="form-group">
-                        <a href="dashboard.admin.php?page_number=1" class="cancel-btn">Cancel</a>
+                        <a href="/<?= PROJECT_NAME ?>/admin/dashboard" class="cancel-btn">Cancel</a>
                         <input type="submit" name="submit" value="Create User" class="submit-btn">
                     </div>
                 </form>

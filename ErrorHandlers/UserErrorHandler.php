@@ -2,7 +2,9 @@
 
 namespace ErrorHandlers;
 
-class AuthErrorHandler
+use Core\ErrorHandler;
+
+class UserErrorHandler extends ErrorHandler
 {
     // Check is email exist
     public function isEmailExist($email, $user) : bool
@@ -28,36 +30,6 @@ class AuthErrorHandler
     public function passwordMisMatch($password, $password_confirmation) : bool
     {
         return $password !== $password_confirmation;
-    }
-
-    // Check empty first name
-    public function emptyFirstName($first_name) : bool
-    {
-        return empty($first_name); 
-    }
-
-    // Check empty last name
-    public function emptyLastName($last_name) : bool
-    {
-        return empty($last_name);
-    }
-
-    // Check empty email
-    public function emptyEmail($email) : bool
-    {
-        return empty($email); 
-    }
-
-    //Check empty gender
-    public function emptyGender($gender) : bool
-    {
-        return empty($gender);
-    }
-
-    // Check empty password
-    public function emptyPassword($password) : bool
-    {
-        return empty($password);
     }
 
     // Check is password confirm

@@ -8,6 +8,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+function error($msg)
+{
+    return $_SESSION['errors'][$msg];
+}
+
 require_once '../fileLoader.php';
 require_once '../bootstrap/app.php';
 

@@ -1,11 +1,3 @@
-<?php
-function error($msg)
-{
-    return $_SESSION['errors'][$msg][0];
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 

@@ -50,6 +50,16 @@ abstract class Model
         return $id;
     }
 
+    protected function update(string $sql, array $param) : void
+    {
+        $conn = $this->db->connect();
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array_values($param));
+
+        $stmt = null;
+    }
+
     private function executeQuery(string $sql, array $params = []): PDOStatement
     {
         $conn = $this->db->connect();

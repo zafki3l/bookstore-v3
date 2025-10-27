@@ -28,6 +28,12 @@ class Router
     
     public function dispatch(string $path, string $method) : void
     {
+        if ($method === 'POST' && isset($_POST['_method'])) {
+            if (strtoupper($_POST['_method']) === 'PUT' || strtoupper($_POST['_method']) === 'DELETE') {
+                $method = strtoupper($_POST['_method']);
+            }
+        }
+
         $result = $this->match($path, $method);
 
         if (!$result) {

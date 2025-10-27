@@ -71,7 +71,7 @@ class AdminController extends Controller
         $request = $adminRequest->addUserRequest();
 
         // Errors handling
-        $errors = $this->addUserErrorHandler($this->userErrorHandler, $request);
+        $errors = $this->userErrorHandler($this->userErrorHandler, $request);
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             $this->back();
@@ -95,12 +95,62 @@ class AdminController extends Controller
     }
 
     /**
-     * Handles addUser Errors
+     * Shows edit user view
+     * @param int $user_id
+     * @return void
+     */
+    public function edit(int $user_id) : void
+    {
+        $this->view(
+            'admin/editUser',
+            'layouts/main-layouts/admin.layouts',
+            'Edit user',
+            $this->user->getUserById($user_id)
+        );
+    }
+
+    /**
+     * Handles update user
+     * @param int $user_id
+     * @param \App\Http\Requests\AdminRequest $adminRequest
+     * @return void
+     */
+    public function update(int $user_id, AdminRequest $adminRequest = new AdminRequest()) : void
+    {
+        // Get request from user
+        $request = $adminRequest->updateUserRequest();
+
+        // Errors handling
+        $errors = $this->userErrorHandler($this->userErrorHandler, $request);
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            $this->back();
+        }
+
+        // Binding parameters
+        $this->user->fill($request);
+        $this->address->fill($request);
+
+        // Update user information
+        $this->user->updateUserById($user_id);
+        $this->address->updateAddressById($request['address_id']);
+
+        // Redirect back to dashboard if successfully
+        $this->redirect('/admin/dashboard');
+    }
+
+    public function destroy(int $user_id)
+    {
+        
+    }
+
+    /**
+     * Handles user Errors
      * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @param array $request
      * @return array<array|string>
      */
-    private function addUserErrorHandler(UserErrorHandler $userErrorHandler, array $request) : array
+    private function userErrorHandler(UserErrorHandler $userErrorHandler, array $request) : array
     {
         $errors = [];
 

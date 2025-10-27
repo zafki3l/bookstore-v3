@@ -76,6 +76,31 @@ class User extends Model
         }
     }
 
+    public function getUserById(int $user_id): array
+    {
+        $params = [$user_id];
+        $sql = "SELECT u.id as 'user_id',
+                        a.id as 'address_id',
+                        u.first_name as 'first_name',
+                        u.last_name as 'last_name',
+                        u.email as 'email',
+                        u.gender as 'gender',
+                        a.street as 'street',
+                        a.city as 'city',
+                        u.role as 'role'
+                FROM users_address ua
+                JOIN users u ON ua.user_id = u.id
+                JOIN address a ON ua.address_id = a.id
+                WHERE u.id = ?";
+
+        try {
+            return $this->getByParams($params, $sql);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            return [];
+        }
+    }
+
     public function createUser(): int
     {
         try {
@@ -103,6 +128,32 @@ class User extends Model
         } catch (PDOException $e) {
             print $e->getMessage();
             return 0;
+        }
+    }
+
+    public function updateUserById(int $user_id) : void
+    {
+        $params = [
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'email' => $this->email,
+            'gender' => $this->gender,
+            'role' => $this->role,
+            'user_id' => $user_id
+        ];
+        
+        $sql = "UPDATE users
+                SET first_name = ?,
+                    last_name = ?,
+                    email = ?,
+                    gender = ?,
+                    role = ?
+                WHERE id = ?";
+
+        try {
+            $this->update($sql, $params);
+        } catch (PDOException $e) {
+            print $e->getMessage();
         }
     }
 }

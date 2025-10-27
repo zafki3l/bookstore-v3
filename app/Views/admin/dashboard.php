@@ -67,7 +67,7 @@
                                 <td><?= htmlspecialchars($user['created_at']) ?></td>
                                 <td><?= htmlspecialchars($user['updated_at']) ?></td>
                                 <td>
-                                    <a href="">Edit</a>
+                                    <a href="/<?= PROJECT_NAME ?>/admin/users/<?= $user['user_id'] ?>/edit">Edit</a>
                                     <a href="">Delete</a>
                                 </td>
                             </tr>

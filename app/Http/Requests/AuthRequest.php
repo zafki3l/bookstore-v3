@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 /**
  * Class AuthRequest
- * Get user requests
+ * Get requests related to authentication
  */
 class AuthRequest
 {

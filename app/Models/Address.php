@@ -20,6 +20,10 @@ class Address extends Model
         parent::__construct($db);
     }
 
+    /**
+     * Create new address
+     * @return bool|int|string
+     */
     public function createAddress() : int
     {
         try {
@@ -33,6 +37,11 @@ class Address extends Model
         }
     }
 
+    /**
+     * Update address by id
+     * @param int $address_id
+     * @return void
+     */
     public function updateAddressById(int $address_id) : void
     {
         $params = [
@@ -46,6 +55,24 @@ class Address extends Model
 
         try {
             $this->update($sql, $params);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
+    }
+
+    /**
+     * Delete address from database
+     * @param int $address_id
+     * @return void
+     */
+    public function deleteAddress(int $address_id) : void
+    {
+        $params = ['address_id' => $address_id];
+
+        $sql = "DELETE FROM users WHERE id = ?";
+
+        try {
+            $this->delete($sql, $params);
         } catch (PDOException $e) {
             print $e->getMessage();
         }

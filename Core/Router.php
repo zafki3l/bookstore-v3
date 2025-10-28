@@ -28,11 +28,7 @@ class Router
     
     public function dispatch(string $path, string $method) : void
     {
-        if ($method === 'POST' && isset($_POST['_method'])) {
-            if (strtoupper($_POST['_method']) === 'PUT' || strtoupper($_POST['_method']) === 'DELETE') {
-                $method = strtoupper($_POST['_method']);
-            }
-        }
+        $method = $this->overrideMethod($method);
 
         $result = $this->match($path, $method);
 
@@ -67,5 +63,23 @@ class Router
         }
 
         return null;
+    }
+
+    private function overrideMethod(string $method) : string
+    {
+        $override = isset($_POST['_method']) ? $_POST['_method'] : null;
+
+        if ($method === 'POST' && $override && $this->isAllowedMethod($override)) {
+            return strtoupper($override);
+        }
+
+        return $method;
+    }
+
+    private function isAllowedMethod(string $override) : bool
+    {
+        return $override === 'PUT' || 
+                $override === 'DELETE' ||
+                $override === 'PATCH';
     }
 }

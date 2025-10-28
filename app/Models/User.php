@@ -35,6 +35,10 @@ class User extends Model
         parent::__construct($db);
     }
 
+    /**
+     * Get all user
+     * @return array
+     */
     public function getAllUser(): array
     {
         $sql = "SELECT *
@@ -50,6 +54,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Get user by email
+     * @param string $email
+     * @return array
+     */
     public function getUserByEmail(string $email): array
     {
         $params = [$email];
@@ -76,6 +85,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Get user by id
+     * @param int $user_id
+     * @return array
+     */
     public function getUserById(int $user_id): array
     {
         $params = [$user_id];
@@ -101,6 +115,10 @@ class User extends Model
         }
     }
 
+    /**
+     * Create a user
+     * @return bool|int|string
+     */
     public function createUser(): int
     {
         try {
@@ -118,6 +136,12 @@ class User extends Model
         }
     }
 
+    /**
+     * Link user to address
+     * @param int $user_id
+     * @param int $address_id
+     * @return bool|int|string
+     */
     public function linkAddress(int $user_id, int $address_id): int
     {
         try {
@@ -131,6 +155,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Update user by id
+     * @param int $user_id
+     * @return void
+     */
     public function updateUserById(int $user_id) : void
     {
         $params = [
@@ -152,6 +181,46 @@ class User extends Model
 
         try {
             $this->update($sql, $params);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
+    }
+
+    /**
+     * delete User 
+     * @param int $user_id
+     * @return void
+     */
+    public function deleteUser(int $user_id) : void
+    {
+        $params = ['user_id' => $user_id];
+
+        $sql = "DELETE FROM users WHERE id = ?";
+
+        try {
+            $this->delete($sql, $params);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+        }
+    }
+
+    /**
+     * Unlink User and Address relationship
+     * @param mixed $user_id
+     * @param mixed $address_id
+     * @return void
+     */
+    public function unlinkUserAndAddress($user_id, $address_id) : void
+    {
+        $params = [
+            'user_id' => $user_id,
+            'address_id' => $address_id
+        ];
+
+        $sql = "DELETE FROM users_address WHERE user_id = ? AND address_id = ?";
+
+        try {
+            $this->delete($sql, $params);
         } catch (PDOException $e) {
             print $e->getMessage();
         }

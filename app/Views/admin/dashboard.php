@@ -67,8 +67,22 @@
                                 <td><?= htmlspecialchars($user['created_at']) ?></td>
                                 <td><?= htmlspecialchars($user['updated_at']) ?></td>
                                 <td>
-                                    <a href="/<?= PROJECT_NAME ?>/admin/users/<?= $user['user_id'] ?>/edit">Edit</a>
-                                    <a href="">Delete</a>
+                                    <div class="action-btn">
+                                        <a class="edit-btn" href="/<?= PROJECT_NAME ?>/admin/users/<?= htmlspecialchars($user['user_id']) ?>/edit">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+
+                                        <form action="/<?= PROJECT_NAME ?>/admin/users/<?= htmlspecialchars($user['user_id']) ?>" method="post">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            
+                                            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user['user_id']) ?>">
+                                            <input type="hidden" name="address_id" value="<?php echo htmlspecialchars($user['address_id']) ?>">
+
+                                            <button type="submit" class="delete-btn">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

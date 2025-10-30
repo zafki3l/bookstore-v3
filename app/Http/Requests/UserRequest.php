@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 /**
  * Class AdminRequest
- * Get user requests
+ * Get requests related to user
  */
-class AdminRequest
+class UserRequest
 {
     public function addUserRequest() : array
     {
@@ -33,6 +33,14 @@ class AdminRequest
             'street' => trim($_POST['street']),
             'city' => trim($_POST['city']),
             'role' => trim($_POST['role'])
+        ];
+    }
+
+    public function deleteUserRequest() : array 
+    {
+        return [
+            'user_id' => trim($_POST['user_id']),
+            'address_id' => trim($_POST['address_id'])
         ];
     }
 }

@@ -24,16 +24,36 @@
                     <div class="form-group">
                         <label for="first_name">First name: </label>
                         <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($data[0]['first_name']) ?>" placeholder="First name">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-firstname'])): ?>
+                                <p><?= error('empty-firstname') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="last_name">Last name: </label>
                         <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($data[0]['last_name']) ?>" placeholder="Last name">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-lastname'])): ?>
+                                <p><?= error('empty-lastname') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email: </label>
                         <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($data[0]['email']) ?>" placeholder="Email">
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-email'])): ?>
+                                <p><?= error('empty-email') ?></p>
+                            <?php elseif (!empty($_SESSION['errors']['email-invalid'])): ?>
+                                <p><?= error('email-invalid') ?></p>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -51,6 +71,12 @@
                                 <input type="radio" name="gender" value="other"
                                 <?= ($data[0]['gender'] == 'other') ? 'checked' : '' ?>> Other
                             </label>
+                        </div>
+
+                        <div class="error-msg">
+                            <?php if (!empty($_SESSION['errors']['empty-gender'])): ?>
+                                <p><?= error('empty-gender') ?></p>
+                            <?php endif; ?>
                         </div>
                     </div>
 

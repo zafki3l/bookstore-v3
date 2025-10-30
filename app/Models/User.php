@@ -39,12 +39,13 @@ class User extends Model
      * Get all user
      * @return array
      */
-    public function getAllUser(): array
+    public function getAllUser($start_from, $result_per_page): array
     {
-        $sql = "SELECT *
+        $sql = "SELECT *, COUNT(*) OVER() as 'total_count'
                 FROM users_address ua
                 JOIN users u ON ua.user_id = u.id
-                JOIN address a ON ua.address_id = a.id";
+                JOIN address a ON ua.address_id = a.id
+                LIMIT $start_from, $result_per_page";
 
         try {
             return $this->getAll($sql);
@@ -232,7 +233,7 @@ class User extends Model
      * @param mixed $search
      * @return array
      */
-    public function searchUser(mixed $search) : array
+    public function searchUser(mixed $search, $start_from, $result_per_page) : array
     {
         $data = "%$search%";
 
@@ -253,17 +254,56 @@ class User extends Model
                 WHERE u.id = ? 
                     OR u.first_name LIKE ?
                     OR u.last_name LIKE ?
-                    OR u.email LIKE ?
                     OR a.street LIKE ?
-                    OR a.city LIKE ?";
+                    OR a.city LIKE ?
+                LIMIT $start_from, $result_per_page";
         
-        $params = [$data, $data, $data, $data, $data, $data];
+        $params = [$data, $data, $data, $data, $data];
 
         try {
             return $this->getByParams($params, $sql);
         } catch (PDOException $e) {
             print $e->getMessage();
             return [];
+        }
+    }
+
+    public function countUser() : int
+    {
+        try {
+            $data = $this->getAll("SELECT COUNT(id) as 'total' FROM users");
+
+            return $data[0]['total'];
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            return 0;
+        }
+    }
+
+    public function countSearchUser(string $search) : int
+    {
+        $data = "%$search%";
+
+        $sql = "SELECT COUNT(u.id) as 'total'
+                FROM users_address ua
+                JOIN users u ON ua.user_id = u.id
+                JOIN address a ON ua.address_id = a.id
+                WHERE u.id = ? 
+                    OR u.first_name LIKE ?
+                    OR u.last_name LIKE ?
+                    OR a.street LIKE ?
+                    OR a.city LIKE ?";
+        
+        $params = [$data, $data, $data, $data, $data];
+
+        try {
+            $data = $this->getByParams($params, $sql);
+            $total_records = $data[0]['total'];
+
+            return $total_records;
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            return 0;
         }
     }
 }

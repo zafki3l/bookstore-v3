@@ -17,6 +17,7 @@ abstract class Controller
      */
     private function renderView(string $view, array $data = []): void
     {
+        extract($data);
         require_once VIEW_PATH . $view . '.php';
     }
 

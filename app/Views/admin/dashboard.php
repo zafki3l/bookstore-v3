@@ -43,7 +43,7 @@
                     </thead>
 
                     <tbody>
-                        <?php foreach ($data as $user): ?>
+                        <?php foreach ($users as $user): ?>
                             <tr>
                                 <td><?= htmlspecialchars($user['user_id']) ?></td>
                                 <td><?= htmlspecialchars($user['first_name']) ?></td>
@@ -88,6 +88,9 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <?php include_once VIEW_PATH . 'layouts/parts/pagination.php' ?>
             </div>
         </div>
     </div>

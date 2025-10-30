@@ -11,10 +11,16 @@ use ErrorHandlers\UserErrorHandler;
 use Exception;
 use Traits\HttpResponseTrait;
 
+/**
+ * Class UserController
+ * Handles logics related to User
+ */
 class UserController extends Controller
 {
+    // Traits
     use HttpResponseTrait;
 
+    // Constructor
     public function __construct(
         private User $user,
         private Address $address,

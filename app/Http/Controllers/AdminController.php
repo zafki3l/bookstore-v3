@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Middlewares\EnsureAdmin;
 use App\Models\User;
 use Core\Controller;
-use ErrorHandlers\UserErrorHandler;
 use Traits\HttpResponseTrait;
 
 /**
  * Class Admin Controller
- * Handles User Management and other Admin logics
  */
 class AdminController extends Controller
 {
@@ -20,7 +18,6 @@ class AdminController extends Controller
     public function __construct(
         private EnsureAdmin $ensureAdmin,
         private User $user,
-        private UserErrorHandler $userErrorHandler
     ) {
         $this->ensureAdmin->handle();
     }
@@ -31,11 +28,17 @@ class AdminController extends Controller
      */
     public function index() : void
     {
+        $users = $this->user->getAllUser();
+
+        if (isset($_GET['search'])) {
+            $users = $this->user->searchUser($_GET['search']);
+        }
+        
         $this->view(
             'admin/dashboard', 
             'layouts/main-layouts/admin.layouts',
             'Admin Dashboard',
-            $this->user->getAllUser()
+            $users
         );
     }
 }

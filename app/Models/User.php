@@ -225,4 +225,45 @@ class User extends Model
             print $e->getMessage();
         }
     }
+
+    /**
+     * Search users
+     * 
+     * @param mixed $search
+     * @return array
+     */
+    public function searchUser(mixed $search) : array
+    {
+        $data = "%$search%";
+
+        $sql = "SELECT u.id as 'user_id',
+                        a.id as 'address_id',
+                        u.first_name as 'first_name',
+                        u.last_name as 'last_name',
+                        u.email as 'email',
+                        u.gender as 'gender',
+                        a.street as 'street',
+                        a.city as 'city',
+                        u.role as 'role',
+                        u.created_at as 'created_at',
+                        u.updated_at as 'updated_at'
+                FROM users_address ua
+                JOIN users u ON ua.user_id = u.id
+                JOIN address a ON ua.address_id = a.id
+                WHERE u.id = ? 
+                    OR u.first_name LIKE ?
+                    OR u.last_name LIKE ?
+                    OR u.email LIKE ?
+                    OR a.street LIKE ?
+                    OR a.city LIKE ?";
+        
+        $params = [$data, $data, $data, $data, $data, $data];
+
+        try {
+            return $this->getByParams($params, $sql);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            return [];
+        }
+    }
 }

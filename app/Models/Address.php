@@ -49,6 +49,7 @@ class Address extends Model
             'city' => $this->city,
             'address_id' => $address_id
         ];
+        
         $sql = "UPDATE address
                 SET street = ?, city = ?
                 WHERE id = ?";

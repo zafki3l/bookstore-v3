@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Middlewares\EnsureAdmin;
 use App\Models\User;
 use Core\Controller;
+use Core\Paginator;
 use Traits\HttpResponseTrait;
 
 /**
@@ -28,17 +29,34 @@ class AdminController extends Controller
      */
     public function index() : void
     {
-        $users = $this->user->getAllUser();
+        $user = $this->user;
 
-        if (isset($_GET['search'])) {
-            $users = $this->user->searchUser($_GET['search']);
-        }
-        
+        $search = $_GET['search'] ?? null;
+
+        $result_per_page = Paginator::DEFAULT_RESULT_PER_PAGE;
+
+        // Get the current page
+        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+        // Get the total of records
+        $total_results = $search ? $user->countSearchUser($search) : $user->countUser();
+
+        // Calculate pagination
+        $pagination = Paginator::paginate($total_results, $result_per_page, $page);
+
+        // Get the user list
+        $users = $search ? $user->searchUser($search, $pagination['start_from'], $result_per_page) : $user->getAllUser($pagination['start_from'], $result_per_page);
+
         $this->view(
             'admin/dashboard', 
             'layouts/main-layouts/admin.layouts',
             'Admin Dashboard',
-            $users
+            [
+                'users' => $users,
+                'page' => $page,
+                'total_pages' => $pagination['total_pages'],
+                'result_per_page' => $result_per_page
+            ]
         );
     }
 }

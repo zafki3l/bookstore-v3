@@ -44,8 +44,8 @@ class AdminController extends Controller
         return $this->view(
             'admin/dashboard',
             'layouts/main-layouts/admin.layouts',
-            'Admin Dashboard',
             [
+                'title' => 'Admin Dashboard',
                 'users' => $users,
                 'current_page' => $current_page,
                 'total_pages' => $pagination['total_pages'],

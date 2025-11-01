@@ -10,12 +10,12 @@ use Traits\ModelTrait;
 class Address extends Model
 {
     use ModelTrait;
-    
+
     private int $address_id;
     private string $street;
     private string $city;
 
-    public function __construct(Database $db) 
+    public function __construct(Database $db)
     {
         parent::__construct($db);
     }
@@ -24,7 +24,7 @@ class Address extends Model
      * Create new address
      * @return bool|int|string
      */
-    public function createAddress() : int
+    public function createAddress(): int
     {
         try {
             return $this->insert('address', [
@@ -42,14 +42,14 @@ class Address extends Model
      * @param int $address_id
      * @return void
      */
-    public function updateAddressById(int $address_id) : void
+    public function updateAddressById(int $address_id): void
     {
         $params = [
             'street' => $this->street,
             'city' => $this->city,
             'address_id' => $address_id
         ];
-        
+
         $sql = "UPDATE address
                 SET street = ?, city = ?
                 WHERE id = ?";
@@ -66,7 +66,7 @@ class Address extends Model
      * @param int $address_id
      * @return void
      */
-    public function deleteAddress(int $address_id) : void
+    public function deleteAddress(int $address_id): void
     {
         $params = ['address_id' => $address_id];
 

@@ -37,19 +37,19 @@ class AdminController extends Controller
 
         $total_records = $isSearching ? $user->countSearchUser($search) : $user->countUser();
 
-        $pagination = Paginator::paginate($total_records, Paginator::DEFAULT_RESULT_PER_PAGE, $current_page); // Calculate the total pages and the start page
+        $pagination = Paginator::paginate($total_records, Paginator::RESULT_PER_PAGE, $current_page); // Calculate the total pages and the start page
 
-        $users = $isSearching ? $user->searchUser($search, $pagination['start_from'], Paginator::DEFAULT_RESULT_PER_PAGE) : $user->getAllUser($pagination['start_from'], Paginator::DEFAULT_RESULT_PER_PAGE);
+        $users = $isSearching ? $user->searchUser($search, $pagination['start_from'], Paginator::RESULT_PER_PAGE) : $user->getAllUser($pagination['start_from'], Paginator::RESULT_PER_PAGE);
 
         return $this->view(
             'admin/dashboard',
-            'layouts/main-layouts/admin.layouts',
+            'admin.layouts',
             [
                 'title' => 'Admin Dashboard',
                 'users' => $users,
                 'current_page' => $current_page,
                 'total_pages' => $pagination['total_pages'],
-                'result_per_page' => Paginator::DEFAULT_RESULT_PER_PAGE
+                'result_per_page' => Paginator::RESULT_PER_PAGE
             ]
         );
     }

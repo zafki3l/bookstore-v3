@@ -17,7 +17,7 @@ class User extends Model
     const ROLE_USER = 1;
     const ROLE_STAFF = 2;
     const ROLE_ADMIN = 3;
-    
+
     // Attributes
     private int $user_id;
     private string $first_name;
@@ -30,7 +30,7 @@ class User extends Model
     private DateTime $updated_at;
 
     // Constructor
-    public function __construct(Database $db) 
+    public function __construct(Database $db)
     {
         parent::__construct($db);
     }
@@ -161,7 +161,7 @@ class User extends Model
      * @param int $user_id
      * @return void
      */
-    public function updateUserById(int $user_id) : void
+    public function updateUserById(int $user_id): void
     {
         $params = [
             'first_name' => $this->first_name,
@@ -171,7 +171,7 @@ class User extends Model
             'role' => $this->role,
             'user_id' => $user_id
         ];
-        
+
         $sql = "UPDATE users
                 SET first_name = ?,
                     last_name = ?,
@@ -192,7 +192,7 @@ class User extends Model
      * @param int $user_id
      * @return void
      */
-    public function deleteUser(int $user_id) : void
+    public function deleteUser(int $user_id): void
     {
         $params = ['user_id' => $user_id];
 
@@ -211,7 +211,7 @@ class User extends Model
      * @param mixed $address_id
      * @return void
      */
-    public function unlinkUserAndAddress($user_id, $address_id) : void
+    public function unlinkUserAndAddress($user_id, $address_id): void
     {
         $params = [
             'user_id' => $user_id,
@@ -233,7 +233,7 @@ class User extends Model
      * @param mixed $search
      * @return array
      */
-    public function searchUser(mixed $search, $start_from, $result_per_page) : array
+    public function searchUser(mixed $search, $start_from, $result_per_page): array
     {
         $data = "%$search%";
 
@@ -257,7 +257,7 @@ class User extends Model
                     OR a.street LIKE ?
                     OR a.city LIKE ?
                 LIMIT $start_from, $result_per_page";
-        
+
         $params = [$data, $data, $data, $data, $data];
 
         try {
@@ -268,7 +268,7 @@ class User extends Model
         }
     }
 
-    public function countUser() : int
+    public function countUser(): int
     {
         try {
             $data = $this->getAll("SELECT COUNT(id) as 'total' FROM users");
@@ -280,7 +280,7 @@ class User extends Model
         }
     }
 
-    public function countSearchUser(string $search) : int
+    public function countSearchUser(string $search): int
     {
         $data = "%$search%";
 
@@ -293,7 +293,7 @@ class User extends Model
                     OR u.last_name LIKE ?
                     OR a.street LIKE ?
                     OR a.city LIKE ?";
-        
+
         $params = [$data, $data, $data, $data, $data];
 
         try {

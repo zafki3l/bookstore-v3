@@ -4,13 +4,13 @@ namespace Traits;
 
 trait HttpResponseTrait
 {
-    public function redirect(string $path) : void
+    public function redirect(string $path): void
     {
         header('Location: /' . PROJECT_NAME . $path);
         exit();
     }
 
-    public function back() : void
+    public function back(): void
     {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();

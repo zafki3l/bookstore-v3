@@ -30,10 +30,12 @@ abstract class Controller
      * @param array $data
      * @return mixed
      */
-    protected function view(string $view, string $layout, string $title, array $data = []) : mixed
+    protected function view(string $view, string $layout, array $data = []) : mixed
     {
         ob_start();
         $view = $this->render($view, $data);
+
+        $title = $data['title'] ?? 'Document';
 
         $view_data = [
             'title' => $title,

@@ -24,7 +24,7 @@ class StaffController extends Controller
         return $this->view(
             'staff/dashboard', 
             'layouts/main-layouts/staff.layouts',
-            'Staff Dashboard'
+            ['title' => 'Staff Dashboard']
         );
     }
 }

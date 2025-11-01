@@ -39,7 +39,7 @@ class UserController extends Controller
         return $this->view(
             'admin/addUser',
             'layouts/main-layouts/admin.layouts',
-            'Create new user',
+            ['title' => 'Create new user']
         );
     }
 
@@ -86,8 +86,10 @@ class UserController extends Controller
         return $this->view(
             'admin/editUser',
             'layouts/main-layouts/admin.layouts',
-            'Edit user',
-            $this->user->getUserById($user_id)
+            [
+                'title' => 'Edit user',
+                'user' => $this->user->getUserById($user_id)
+            ]
         );
     }
 
@@ -137,7 +139,7 @@ class UserController extends Controller
         // Delete and unlink
         $user_id = $request['user_id'];
         $address_id = $request['address_id'];
-        
+
         $this->user->unlinkUserAndAddress($user_id, $address_id);
         $this->user->deleteUser($user_id);
         $this->address->deleteAddress($address_id);

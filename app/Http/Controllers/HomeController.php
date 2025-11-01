@@ -15,7 +15,7 @@ class HomeController extends Controller
         return $this->view(
             'homepage',
             'layouts/main-layouts/homepage.layouts',
-            'Homepage'
+            ['title' => 'Homepage']
         );
     }
 }

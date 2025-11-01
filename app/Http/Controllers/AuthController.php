@@ -34,7 +34,7 @@ class AuthController extends Controller
         return $this->view(
             'auth/login',
             'layouts/main-layouts/homepage.layouts',
-            'Login'
+            ['title' => 'Login']
         );
     }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
         return $this->view(
             'auth/register',
             'layouts/main-layouts/homepage.layouts',
-            'Register'
+            ['title' => 'Register']
         );
     }
 

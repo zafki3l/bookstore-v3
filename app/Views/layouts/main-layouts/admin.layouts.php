@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/layouts/homepage/searchbar.css">
     <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/rule.css">
     <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/error.css">
+    <link rel="stylesheet" href="/<?= PROJECT_NAME ?>/public/css/noti.css">
     <link rel="shortcut icon" href="/<?= PROJECT_NAME ?>/public/images/icon/crow.png" type="image/x-icon">
     <title><?= $data['title'] ?></title>
 </head>

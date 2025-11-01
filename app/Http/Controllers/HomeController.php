@@ -10,9 +10,9 @@ use Core\Controller as Controller;
  */
 class HomeController extends Controller
 {
-    public function index() : void
+    public function index() : mixed
     {
-        $this->view(
+        return $this->view(
             'homepage',
             'layouts/main-layouts/homepage.layouts',
             'Homepage'

@@ -13,6 +13,12 @@ function error($msg)
     return $_SESSION['errors'][$msg];
 }
 
+function message($message)
+{
+    return $_SESSION[$message];
+}
+
+
 require_once '../fileLoader.php';
 require_once '../bootstrap/app.php';
 

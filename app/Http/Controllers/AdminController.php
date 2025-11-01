@@ -15,7 +15,6 @@ class AdminController extends Controller
 {
     use HttpResponseTrait;
 
-    // Constructor
     public function __construct(
         private EnsureAdmin $ensureAdmin,
         private User $user,
@@ -25,37 +24,32 @@ class AdminController extends Controller
 
     /**
      * Shows admin dashboard view
-     * @return void
+     * @return mixed
      */
-    public function index() : void
+    public function index(): mixed
     {
         $user = $this->user;
 
-        $search = $_GET['search'] ?? null;
+        $isSearching = isset($_GET['search']);
+        $search = $isSearching ? $_GET['search'] : null;
 
-        $result_per_page = Paginator::DEFAULT_RESULT_PER_PAGE;
+        $current_page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
-        // Get the current page
-        $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $total_records = $isSearching ? $user->countSearchUser($search) : $user->countUser();
 
-        // Get the total of records
-        $total_results = $search ? $user->countSearchUser($search) : $user->countUser();
+        $pagination = Paginator::paginate($total_records, Paginator::DEFAULT_RESULT_PER_PAGE, $current_page); // Calculate the total pages and the start page
 
-        // Calculate pagination
-        $pagination = Paginator::paginate($total_results, $result_per_page, $page);
+        $users = $isSearching ? $user->searchUser($search, $pagination['start_from'], Paginator::DEFAULT_RESULT_PER_PAGE) : $user->getAllUser($pagination['start_from'], Paginator::DEFAULT_RESULT_PER_PAGE);
 
-        // Get the user list
-        $users = $search ? $user->searchUser($search, $pagination['start_from'], $result_per_page) : $user->getAllUser($pagination['start_from'], $result_per_page);
-
-        $this->view(
-            'admin/dashboard', 
+        return $this->view(
+            'admin/dashboard',
             'layouts/main-layouts/admin.layouts',
             'Admin Dashboard',
             [
                 'users' => $users,
-                'page' => $page,
+                'current_page' => $current_page,
                 'total_pages' => $pagination['total_pages'],
-                'result_per_page' => $result_per_page
+                'result_per_page' => Paginator::DEFAULT_RESULT_PER_PAGE
             ]
         );
     }

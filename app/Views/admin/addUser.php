@@ -112,6 +112,12 @@
             </div>
         </div>
     </div>
+
+    <?php
+        if (isset($_SESSION['errors'])) {
+            unset($_SESSION['errors']);
+        }
+    ?>
 </body>
 
 </html>

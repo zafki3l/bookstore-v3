@@ -106,6 +106,12 @@
                 </form>
             </div>
         </div>
+
+        <?php
+            if (isset($_SESSION['errors'])) {
+                unset($_SESSION['errors']);
+            }
+        ?>
     </div>
 </body>
 

@@ -1,0 +1,129 @@
+.main-content {
+  padding-top: 20px;
+}
+
+/* ----------- DIV1 ----------- */
+.div1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.staff-info {
+  padding: 104px 145px;
+  max-width: 570px;
+  max-height: 320px;
+  box-sizing: border-box;
+}
+
+.info-header {
+  width: max-content;
+  position: relative;
+  bottom: 70px;
+  right: 120px;
+}
+
+.sales-report {
+  width: 570px;
+  height: 320px;
+}
+
+/* ----------- INFO CONTENT ----------- */
+.info-content {
+  display: flex;
+  gap: 20px;
+}
+
+.info-content .img {
+  font-size: 35px;
+  position: relative;
+  bottom: 40px;
+  right: 120px;
+}
+
+.info-content .text {
+  flex-direction: column;
+  display: block;
+  margin: 5px 0;
+  position: relative;
+  right: 100px;
+  bottom: 30px;
+}
+
+.info-content .text p {
+  width: max-content;
+  line-height: 1.7;
+  font-size: 20px;
+}
+
+/* ----------- DIV2 ----------- */
+.div2 {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 320px;
+}
+
+.div2 a {
+  text-decoration: none;
+  color: black;
+}
+
+.box1 {
+  width: 400px;
+  text-align: center;
+  padding: 64px 0;
+}
+
+.box2 {
+  width: 400px;
+  text-align: center;
+}
+
+.book-manage,
+.order-manage {
+  margin-bottom: 20px;
+  color: black;
+}
+
+/* ----------- BOTTOM ----------- */
+.bottom {
+  margin: 20px 0;
+  height: 320px;
+}
+
+/* ----------- DASHBOARD ----------- */
+.dashboard {
+  background: #fdfcf0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ----------- DIV2-2 ----------- */
+.div2-2 {
+  margin-left: 20px;
+}
+
+.div2-2 a {
+  width: 400px;
+  height: 320px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  background-color: #fdfcf0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.div2-2 .order-manage {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  height: max-content;
+}

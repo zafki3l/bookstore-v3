@@ -27,36 +27,28 @@ class AuthController extends Controller
 
     /**
      * Shows login form
-     * @return void
+     * @return mixed
      */
-    public function showLogin(): void
+    public function showLogin() : mixed
     {
-        $this->view(
+        return $this->view(
             'auth/login',
             'layouts/main-layouts/homepage.layouts',
             'Login'
         );
-
-        if (isset($_SESSION['errors'])) {
-            unset($_SESSION['errors']);
-        }
     }
 
     /**
      * shows register form
-     * @return void
+     * @return mixed
      */
-    public function showRegister(): void
+    public function showRegister() : mixed
     {
-        $this->view(
+        return $this->view(
             'auth/register',
             'layouts/main-layouts/homepage.layouts',
             'Register'
         );
-        
-        if (isset($_SESSION['errors'])) {
-            unset($_SESSION['errors']);
-        }
     }
 
     /**
@@ -64,7 +56,7 @@ class AuthController extends Controller
      * @param \App\Http\Requests\AuthRequest $authRequest
      * @return never
      */
-    public function login(AuthRequest $authRequest = new AuthRequest()): void
+    public function login(AuthRequest $authRequest = new AuthRequest()) : void
     {
         // Get email & password from request
         $request = $authRequest->loginRequest();
@@ -75,23 +67,19 @@ class AuthController extends Controller
             $_SESSION['errors'] = $errors;
             $this->back();
         }
-        
-        // Fill request data into user
+
+        // Filling request data into user
         $this->user->fill($request);
 
-        // Get user password from database
+        // If the user's password typed not matching
         $db_user = $this->user->getUserByEmail($this->user->email);
         $db_password = $db_user[0]['password'];
-
-        // Check if db_user not exist or password and db_password not matching then failed
         if ((empty($db_user) || !password_verify($this->user->password, $db_password))) {
             $this->back();
         }
 
-        // Set session for user if successfully
+        // Redirect user if they successfully login
         $_SESSION['user'] = $this->setSession($db_user);
-
-        // Redirect user
         if ($_SESSION['user']['role'] == User::ROLE_ADMIN) {
             $this->redirect('/admin/dashboard');
         }
@@ -118,30 +106,31 @@ class AuthController extends Controller
 
     /**
      * Handles user register
+     * Redirect to login when successful
+     * 
      * @param \App\Http\Requests\AuthRequest $authRequest
      * @return never
      */
-    public function register(AuthRequest $authRequest = new AuthRequest()): void
+    public function register(AuthRequest $authRequest = new AuthRequest()) : void
     {
         // Get request data
         $request = $authRequest->registerRequest();
 
-        // Error handling
+        // Handles user errors
         $errors = $this->registerErrorHandling($this->userErrorHandler, $request);
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             $this->back();
         }
 
-        // Binding parameters into User and Address
+        // Store User and Password to Database then linking them
         $this->user->fill($request);
         $this->address->fill($request);
 
-        // Add new user and address
         $user_id = $this->user->createUser();
         $address_id = $this->address->createAddress();
 
-        // Insert $user_id and $address_id into users_address table
+        // Linking User and Address relationships
         $this->user->linkAddress($user_id, $address_id);
 
         // Redirect to login if register successfully
@@ -174,7 +163,7 @@ class AuthController extends Controller
      * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @return array<array>
      */
-    private function loginErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array 
+    private function loginErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array
     {
         $errors = [];
 
@@ -183,8 +172,10 @@ class AuthController extends Controller
             $user_role = $userData[0]['role'];
 
             // Email not exist handling
-            if (!$userErrorHandler->isEmailExist($request['email'], $this->user) || 
-                $user_role == User::ROLE_GUEST) {
+            if (
+                !$userErrorHandler->isEmailExist($request['email'], $this->user) ||
+                $user_role == User::ROLE_GUEST
+            ) {
                 $errors['email-not-existed'] = 'Email is not exist! create a new account!';
             }
 
@@ -194,7 +185,7 @@ class AuthController extends Controller
             }
 
             // Check password is correct
-            
+
             $user_password = $userData[0]['password'];
 
             if (!$userErrorHandler->isPasswordCorrect($user_password, $request['password'])) {
@@ -207,7 +198,7 @@ class AuthController extends Controller
 
         return $errors;
     }
-    
+
     /**
      * Handles register errors
      * @param \ErrorHandlers\UserErrorHandler $userErrorHandler

@@ -32,23 +32,21 @@ class UserController extends Controller
 
     /**
      * Shows add user view
-     * @return void
+     * @return mixed
      */
-    public function create() : void
+    public function create() : mixed
     {
-        $this->view(
+        return $this->view(
             'admin/addUser',
             'layouts/main-layouts/admin.layouts',
             'Create new user',
         );
-
-        if (isset($_SESSION['errors'])) {
-            unset($_SESSION['errors']);
-        }
     }
 
     /**
      * Handles add user
+     * Redirect back to dashboard if successfully
+     * 
      * @param \App\Http\Requests\UserRequest $userRequest
      * @return void
      */
@@ -64,17 +62,14 @@ class UserController extends Controller
             $this->back();
         }
         
-        /**
-         * Binding parameters into User and Address
-         * Then create new user, address
-         */
+        // Create new User and store into Database
         $this->user->fill($request);
         $user_id = $this->user->createUser();
 
         $this->address->fill($request);
         $address_id = $this->address->createAddress();
 
-        // Link user and address to user_address
+        // Linking User and Address relationships
         $this->user->linkAddress($user_id, $address_id);
 
         // Redirect back to dashboard if successfully
@@ -84,24 +79,22 @@ class UserController extends Controller
     /**
      * Shows edit user view
      * @param int $user_id
-     * @return void
+     * @return mixed
      */
-    public function edit(int $user_id) : void
+    public function edit(int $user_id) : mixed
     {
-        $this->view(
+        return $this->view(
             'admin/editUser',
             'layouts/main-layouts/admin.layouts',
             'Edit user',
             $this->user->getUserById($user_id)
         );
-
-        if (isset($_SESSION['errors'])) {
-            unset($_SESSION['errors']);
-        }
     }
 
     /**
      * Handles update user
+     * Redirect back to dashboard if successfully
+     * 
      * @param int $user_id
      * @param \App\Http\Requests\UserRequest $userRequest
      * @return void
@@ -111,18 +104,17 @@ class UserController extends Controller
         // Get request from user
         $request = $userRequest->updateUserRequest();
 
-        // Errors handling
+        // Handles errors
         $errors = $this->handleUserError($this->userErrorHandler, $request, true);
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             $this->back();
         }
 
-        // Binding parameters
+        // Update user informations
         $this->user->fill($request);
         $this->address->fill($request);
 
-        // Update user information
         $this->user->updateUserById($user_id);
         $this->address->updateAddressById($this->address->address_id);
 
@@ -130,19 +122,27 @@ class UserController extends Controller
         $this->redirect('/admin/dashboard');
     }
 
+    /**
+     * Delete User from Database
+     * 
+     * @param int $user_id
+     * @param \App\Http\Requests\UserRequest $userRequest
+     * @return void
+     */
     public function destroy(int $user_id, UserRequest $userRequest = new UserRequest())
     {
         // Get request
         $request = $userRequest->deleteUserRequest();
 
-        // Binding paramters
+        // Delete and unlink
         $user_id = $request['user_id'];
         $address_id = $request['address_id'];
-
-        // Delete and unlink
+        
         $this->user->unlinkUserAndAddress($user_id, $address_id);
         $this->user->deleteUser($user_id);
         $this->address->deleteAddress($address_id);
+
+        $_SESSION['delete-user-success'] = 'Delete user successfully!';
 
         // Redirect back to dashboard if successfully
         $this->redirect('/admin/dashboard');

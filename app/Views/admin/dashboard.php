@@ -54,14 +54,14 @@
                                 <td><?= htmlspecialchars($user['city']) ?></td>
                                 <td>
                                     <?php 
-                                    switch ($user['role']) {
+                                    switch (htmlspecialchars($user['role'])) {
                                         case 0: $roleName = 'Guest'; break;
                                         case 1: $roleName = 'Customer'; break;
                                         case 2: $roleName = 'Staff'; break;
                                         case 3: $roleName = 'Admin'; break;
                                         default: $roleName = 'Unknown';
                                     }
-                                    echo htmlspecialchars($roleName); 
+                                    echo $roleName; 
                                     ?>
                                 </td>
                                 <td><?= htmlspecialchars($user['created_at']) ?></td>
@@ -90,7 +90,8 @@
                                                     <input type="hidden" name="address_id" value="<?php echo htmlspecialchars($user['address_id']) ?>">
 
                                                     <button type="submit" class="submit-modal">Confirm</button>
-                                                    <button type="button" class="cancel-modal" onclick="closeModal(<?php echo htmlspecialchars($user['id']) ?>)">Cancel</button>
+                                                    <button type="button" class="cancel-modal" 
+                                                    onclick="closeModal(<?php echo htmlspecialchars($user['id']) ?>)">Cancel</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -106,6 +107,19 @@
             </div>
         </div>
     </div>
+
+    <!-- Thông báo xóa user thành công -->
+    <div class="delete-user-message">
+        <?php if (isset($_SESSION['delete-user-success'])): ?>
+            <?php echo htmlspecialchars(message('delete-user-success')); ?>
+            <?php unset($_SESSION['delete-user-success']) ?>
+        <?php endif; ?>
+    </div>
+
+    <!-- Delete user message -->
+    <?php if (!empty($_SESSION['delete-user-success'])): ?>
+        <script src="/<?= PROJECT_NAME ?>/public/js/admin/deleteMessage.js"></script>
+    <?php endif; ?>
 
     <script src="/<?= PROJECT_NAME ?>/public/js/admin/confirmDelete.js"></script>
 </body>

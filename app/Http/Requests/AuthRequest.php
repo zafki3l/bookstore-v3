@@ -8,7 +8,7 @@ namespace App\Http\Requests;
  */
 class AuthRequest
 {
-    public function loginRequest() : array
+    public function loginRequest(): array
     {
         return [
             'email' => trim($_POST['email']),
@@ -16,7 +16,7 @@ class AuthRequest
         ];
     }
 
-    public function registerRequest() : array
+    public function registerRequest(): array
     {
         return [
             'first_name' => trim($_POST['first_name']),

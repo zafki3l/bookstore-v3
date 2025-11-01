@@ -10,7 +10,7 @@ class EnsureAdmin
 {
     use HttpResponseTrait;
 
-    public function handle()
+    public function handle(): void
     {
         if (!Middleware::ensureAuth()) {
             $this->redirect('/login');

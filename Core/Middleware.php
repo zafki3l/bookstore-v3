@@ -13,7 +13,7 @@ class Middleware
      * Ensure user is authenticated
      * @return bool
      */
-    public static function ensureAuth() : bool
+    public static function ensureAuth(): bool
     {
         return isset($_SESSION['user']) ? true : false;
     }

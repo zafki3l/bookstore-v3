@@ -20,7 +20,7 @@ class App
      * @param \Core\Container $container
      * @return void
      */
-    public static function setContainer(Container $container) : void
+    public static function setContainer(Container $container): void
     {
         static::$container = $container;
     }
@@ -29,9 +29,9 @@ class App
      * Resolve a class instance through the container
      * 
      * @param string $class
-     * @return object
+     * @return Container
      */
-    public static function resolve(string $class) : object
+    public static function resolve(string $class): Container
     {
         return static::container()->resolve($class);
     }
@@ -41,7 +41,7 @@ class App
      * 
      * @return Container
      */
-    private static function container() : Container
+    private static function container(): Container
     {
         return static::$container;
     }

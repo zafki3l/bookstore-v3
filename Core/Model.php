@@ -86,7 +86,7 @@ abstract class Model
      * @param array $params
      * @return void
      */
-    protected function update(string $sql, array $params) : void
+    protected function update(string $sql, array $params): void
     {
         $conn = $this->db->connect();
 
@@ -99,10 +99,10 @@ abstract class Model
      * @param array $params
      * @return void
      */
-    protected function delete(string $sql, array $params) : void
+    protected function delete(string $sql, array $params): void
     {
         $conn = $this->db->connect();
-        
+
         $this->executeQuery($conn, $sql, array_values($params));
     }
 
@@ -128,7 +128,7 @@ abstract class Model
      * @param \PDOStatement $stmt
      * @return array
      */
-    private function fetchAll(PDOStatement $stmt) : array
+    private function fetchAll(PDOStatement $stmt): array
     {
         $data = [];
 

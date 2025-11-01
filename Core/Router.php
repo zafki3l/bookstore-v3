@@ -22,7 +22,7 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function get(string $path, mixed $callback) : void
+    public function get(string $path, mixed $callback): void
     {
         $this->routes['GET'][$path] = $callback;
     }
@@ -33,7 +33,7 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function post(string $path, mixed $callback) : void
+    public function post(string $path, mixed $callback): void
     {
         $this->routes['POST'][$path] = $callback;
     }
@@ -44,7 +44,7 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function put(string $path, mixed $callback) : void
+    public function put(string $path, mixed $callback): void
     {
         $this->routes['PUT'][$path] = $callback;
     }
@@ -55,7 +55,7 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function patch(string $path, mixed $callback) : void
+    public function patch(string $path, mixed $callback): void
     {
         $this->routes['PATCH'][$path] = $callback;
     }
@@ -66,11 +66,11 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function delete(string $path, mixed $callback) : void
+    public function delete(string $path, mixed $callback): void
     {
         $this->routes['DELETE'][$path] = $callback;
     }
-    
+
     /**
      * Dispatch the request to the matched route
      * 
@@ -78,7 +78,7 @@ class Router
      * @param string $method
      * @return void
      */
-    public function dispatch(string $path, string $method) : void
+    public function dispatch(string $path, string $method): void
     {
         $method = $this->overrideMethod($method);
 
@@ -94,7 +94,7 @@ class Router
             [$controller, $action] = $callback;
 
             $controller = App::resolve($controller);
-            
+
             call_user_func_array([$controller, $action], $params);
             return;
         }
@@ -109,7 +109,7 @@ class Router
      * @param string $method
      * @return array<array|mixed|null>|null
      */
-    private function match(string $path, string $method) : mixed
+    private function match(string $path, string $method): mixed
     {
         foreach ($this->routes[$method] as $route => $callback) {
             $pattern = preg_replace('#\{[^/]+\}#', '([^/]+)', $route);
@@ -129,7 +129,7 @@ class Router
      * @param string $method
      * @return string
      */
-    private function overrideMethod(string $method) : string
+    private function overrideMethod(string $method): string
     {
         $override = isset($_POST['_method']) ? $_POST['_method'] : null;
 
@@ -145,10 +145,10 @@ class Router
      * @param string $override
      * @return bool
      */
-    private function isAllowedMethod(string $override) : bool
+    private function isAllowedMethod(string $override): bool
     {
-        return $override === 'PUT' || 
-                $override === 'DELETE' ||
-                $override === 'PATCH';
+        return $override === 'PUT' ||
+            $override === 'DELETE' ||
+            $override === 'PATCH';
     }
 }

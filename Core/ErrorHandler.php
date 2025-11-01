@@ -14,7 +14,7 @@ class ErrorHandler
      * @param mixed $name
      * @return bool
      */
-    public function emptyInput($name) : bool
+    public function emptyInput($name): bool
     {
         return empty($name);
     }

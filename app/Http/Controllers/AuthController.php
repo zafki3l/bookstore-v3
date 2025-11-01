@@ -29,11 +29,11 @@ class AuthController extends Controller
      * Shows login form
      * @return mixed
      */
-    public function showLogin() : mixed
+    public function showLogin(): mixed
     {
         return $this->view(
             'auth/login',
-            'layouts/main-layouts/homepage.layouts',
+            'homepage.layouts',
             ['title' => 'Login']
         );
     }
@@ -42,11 +42,11 @@ class AuthController extends Controller
      * shows register form
      * @return mixed
      */
-    public function showRegister() : mixed
+    public function showRegister(): mixed
     {
         return $this->view(
             'auth/register',
-            'layouts/main-layouts/homepage.layouts',
+            'homepage.layouts',
             ['title' => 'Register']
         );
     }
@@ -56,7 +56,7 @@ class AuthController extends Controller
      * @param \App\Http\Requests\AuthRequest $authRequest
      * @return never
      */
-    public function login(AuthRequest $authRequest = new AuthRequest()) : void
+    public function login(AuthRequest $authRequest = new AuthRequest()): void
     {
         // Get email & password from request
         $request = $authRequest->loginRequest();
@@ -111,7 +111,7 @@ class AuthController extends Controller
      * @param \App\Http\Requests\AuthRequest $authRequest
      * @return never
      */
-    public function register(AuthRequest $authRequest = new AuthRequest()) : void
+    public function register(AuthRequest $authRequest = new AuthRequest()): void
     {
         // Get request data
         $request = $authRequest->registerRequest();
@@ -143,7 +143,7 @@ class AuthController extends Controller
      * @param array $db_user
      * @return array
      */
-    private function setSession(array $db_user) : array
+    private function setSession(array $db_user): array
     {
         return [
             'user_id' => $db_user[0]['user_id'],
@@ -163,7 +163,7 @@ class AuthController extends Controller
      * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @return array<array>
      */
-    private function loginErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array
+    private function loginErrorHandling(UserErrorHandler $userErrorHandler, array $request): array
     {
         $errors = [];
 
@@ -204,7 +204,7 @@ class AuthController extends Controller
      * @param \ErrorHandlers\UserErrorHandler $userErrorHandler
      * @return array<array>
      */
-    private function registerErrorHandling(UserErrorHandler $userErrorHandler, array $request) : array
+    private function registerErrorHandling(UserErrorHandler $userErrorHandler, array $request): array
     {
         $errors = [];
 

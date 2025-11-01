@@ -8,7 +8,7 @@ namespace App\Http\Requests;
  */
 class UserRequest
 {
-    public function addUserRequest() : array
+    public function addUserRequest(): array
     {
         return [
             'first_name' => trim($_POST['first_name']) ?? '',
@@ -22,7 +22,7 @@ class UserRequest
         ];
     }
 
-    public function updateUserRequest() : array
+    public function updateUserRequest(): array
     {
         return [
             'address_id' => trim($_POST['address_id']),
@@ -36,7 +36,7 @@ class UserRequest
         ];
     }
 
-    public function deleteUserRequest() : array 
+    public function deleteUserRequest(): array
     {
         return [
             'user_id' => trim($_POST['user_id']),

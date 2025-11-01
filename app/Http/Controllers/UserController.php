@@ -34,11 +34,11 @@ class UserController extends Controller
      * Shows add user view
      * @return mixed
      */
-    public function create() : mixed
+    public function create(): mixed
     {
         return $this->view(
             'admin/addUser',
-            'layouts/main-layouts/admin.layouts',
+            'admin.layouts',
             ['title' => 'Create new user']
         );
     }
@@ -50,7 +50,7 @@ class UserController extends Controller
      * @param \App\Http\Requests\UserRequest $userRequest
      * @return void
      */
-    public function store(UserRequest $userRequest = new UserRequest())
+    public function store(UserRequest $userRequest = new UserRequest()): void
     {
         // Get request from user
         $request = $userRequest->addUserRequest();
@@ -61,7 +61,7 @@ class UserController extends Controller
             $_SESSION['errors'] = $errors;
             $this->back();
         }
-        
+
         // Create new User and store into Database
         $this->user->fill($request);
         $user_id = $this->user->createUser();
@@ -81,11 +81,11 @@ class UserController extends Controller
      * @param int $user_id
      * @return mixed
      */
-    public function edit(int $user_id) : mixed
+    public function edit(int $user_id): mixed
     {
         return $this->view(
             'admin/editUser',
-            'layouts/main-layouts/admin.layouts',
+            'admin.layouts',
             [
                 'title' => 'Edit user',
                 'user' => $this->user->getUserById($user_id)
@@ -101,7 +101,7 @@ class UserController extends Controller
      * @param \App\Http\Requests\UserRequest $userRequest
      * @return void
      */
-    public function update(int $user_id, UserRequest $userRequest = new UserRequest()) : void
+    public function update(int $user_id, UserRequest $userRequest = new UserRequest()): void
     {
         // Get request from user
         $request = $userRequest->updateUserRequest();
@@ -131,7 +131,7 @@ class UserController extends Controller
      * @param \App\Http\Requests\UserRequest $userRequest
      * @return void
      */
-    public function destroy(int $user_id, UserRequest $userRequest = new UserRequest())
+    public function destroy(int $user_id, UserRequest $userRequest = new UserRequest()): void
     {
         // Get request
         $request = $userRequest->deleteUserRequest();
@@ -157,7 +157,7 @@ class UserController extends Controller
      * @param bool $isUpdated
      * @return array<array|string>
      */
-    private function handleUserError(UserErrorHandler $userErrorHandler, array $request, bool $isUpdated = false) : array
+    private function handleUserError(UserErrorHandler $userErrorHandler, array $request, bool $isUpdated = false): array
     {
         $errors = [];
 
@@ -174,23 +174,23 @@ class UserController extends Controller
 
             // Empty input handling
             if ($userErrorHandler->emptyInput($request['first_name'])) {
-                $errors['empty-firstname'] = 'First name can not be empty!'; 
+                $errors['empty-firstname'] = 'First name can not be empty!';
             }
 
             if ($userErrorHandler->emptyInput($request['last_name'])) {
-                $errors['empty-lastname'] = 'Last name can not be empty!'; 
+                $errors['empty-lastname'] = 'Last name can not be empty!';
             }
 
             if ($userErrorHandler->emptyInput($request['email'])) {
-                $errors['empty-email'] = 'Email can not be empty!'; 
+                $errors['empty-email'] = 'Email can not be empty!';
             }
 
             if ($userErrorHandler->emptyInput($request['gender'])) {
-                $errors['empty-gender'] = 'Gender can not be empty!'; 
+                $errors['empty-gender'] = 'Gender can not be empty!';
             }
 
             if (!$isUpdated && $userErrorHandler->emptyInput($request['password'])) {
-                $errors['empty-password'] = 'Password can not be empty!'; 
+                $errors['empty-password'] = 'Password can not be empty!';
             }
         } catch (Exception $e) {
             $errors['exception-error'][] = $e->getMessage();

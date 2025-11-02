@@ -80,6 +80,7 @@ class Router
      */
     public function dispatch(string $path, string $method): void
     {
+        // Override PUT/PATCH and DELETE method
         $method = $this->overrideMethod($method);
 
         $result = $this->match($path, $method);
@@ -147,8 +148,6 @@ class Router
      */
     private function isAllowedMethod(string $override): bool
     {
-        return $override === 'PUT' ||
-            $override === 'DELETE' ||
-            $override === 'PATCH';
+        return $override === 'PUT' || $override === 'DELETE' || $override === 'PATCH';
     }
 }

@@ -108,17 +108,28 @@
         </div>
     </div>
 
-    <!-- Thông báo xóa user thành công -->
+    <div class="edit-user-message">
+        <?php if (isset($_SESSION['edit-user-success'])): ?>
+            <?php echo htmlspecialchars(message('edit-user-success')); ?>
+        <?php endif; ?>
+    </div>
+
+    <!-- Edit user message -->
+    <?php if (!empty($_SESSION['edit-user-success'])): ?>
+        <script src="/<?= PROJECT_NAME ?>/public/js/admin/editMessage.js"></script>
+        <?php unset($_SESSION['edit-user-success']) ?>
+    <?php endif; ?>
+
     <div class="delete-user-message">
         <?php if (isset($_SESSION['delete-user-success'])): ?>
             <?php echo htmlspecialchars(message('delete-user-success')); ?>
-            <?php unset($_SESSION['delete-user-success']) ?>
         <?php endif; ?>
     </div>
 
     <!-- Delete user message -->
     <?php if (!empty($_SESSION['delete-user-success'])): ?>
         <script src="/<?= PROJECT_NAME ?>/public/js/admin/deleteMessage.js"></script>
+        <?php unset($_SESSION['delete-user-success']) ?>
     <?php endif; ?>
 
     <script src="/<?= PROJECT_NAME ?>/public/js/admin/confirmDelete.js"></script>

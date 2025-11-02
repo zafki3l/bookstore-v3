@@ -18,7 +18,7 @@ abstract class Controller
     private function render(string $view, array $data = []): mixed
     {
         extract($data);
-        return require_once VIEW_PATH . $view . '.php';
+        return require VIEW_PATH . $view . '.php';
     }
 
     /**

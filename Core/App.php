@@ -31,7 +31,7 @@ class App
      * @param string $class
      * @return Container
      */
-    public static function resolve(string $class): Container
+    public static function resolve(string $class): object
     {
         return static::container()->resolve($class);
     }

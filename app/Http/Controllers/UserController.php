@@ -120,6 +120,8 @@ class UserController extends Controller
         $this->user->updateUserById($user_id);
         $this->address->updateAddressById($this->address->address_id);
 
+        $_SESSION['edit-user-success'] = 'Edit user successfully!';
+
         // Redirect back to dashboard if successfully
         $this->redirect('/admin/dashboard');
     }

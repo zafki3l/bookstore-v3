@@ -16,7 +16,7 @@
 
             <!-- Edit user form -->
             <div class="container-content">
-                <form action="/<?= PROJECT_NAME ?>/admin/user/<?= $user[0]['user_id'] ?>" method="post">
+                <form action="/<?= PROJECT_NAME ?>/admin/user/<?= htmlspecialchars($user[0]['user_id']) ?>" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user[0]['user_id']) ?>">
                     <input type="hidden" name="address_id" value="<?php echo htmlspecialchars($user[0]['address_id']) ?>">

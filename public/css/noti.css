@@ -1,4 +1,4 @@
-.edit-message {
+.edit-user-message {
   position: fixed;
   top: 60px;
   right: 20px;
@@ -12,11 +12,11 @@
   z-index: 9999;
 }
 
-.edit-message.show {
+.edit-user-message.show {
   opacity: 1;
 }
 
-.delete-message {
+.delete-user-message {
   position: fixed;
   top: 60px;
   right: 20px;
@@ -30,6 +30,6 @@
   z-index: 9999;
 }
 
-.delete-message.show {
+.delete-user-message.show {
   opacity: 1;
 }

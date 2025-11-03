@@ -16,6 +16,7 @@
 
             <div class="container-content">
                 <form action="/<?= PROJECT_NAME ?>/admin/users" method="post">
+                    <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                     <div class="form-group">
                         <label for="first_name">First name: </label>
                         <input type="text" id="first_name" name="first_name" placeholder="First name">

@@ -17,6 +17,7 @@
             <!-- Edit user form -->
             <div class="container-content">
                 <form action="/<?= PROJECT_NAME ?>/admin/users/<?= htmlspecialchars($user[0]['user_id']) ?>" method="post">
+                    <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user[0]['user_id']) ?>">
                     <input type="hidden" name="address_id" value="<?php echo htmlspecialchars($user[0]['address_id']) ?>">

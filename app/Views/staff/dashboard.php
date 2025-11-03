@@ -36,7 +36,7 @@
                     </header>
                     <div class="card-body">
                         <div class="management-links">
-                            <a class="manage-link" href="books/index.books.php?page_number=1">
+                            <a class="manage-link" href="/<?= PROJECT_NAME ?>/staff/books">
                                 <i class="fa-solid fa-book"></i>
                                 Book Management
                             </a>

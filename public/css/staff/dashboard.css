@@ -24,7 +24,7 @@
 }
 
 .card-header {
-  background: black;
+  background: #9d0202;
   padding: 16px 20px;
   border-bottom: 1px solid #e9ecef;
 }
@@ -42,7 +42,7 @@
 /* Staff Info Card */
 .staff-info-card .profile-avatar {
   display: flex;
-  justify-content: start;
+  justify-content: center;
   margin-bottom: 20px;
   color: #ca122f;
 }
@@ -56,7 +56,7 @@
 .profile-details p {
   margin: 0;
   font-size: 14px;
-  color: #495057;
+  color: #212529;
 }
 
 .profile-details strong {

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middlewares\CSRF_Authenticator;
 use Core\Router;
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -13,10 +14,7 @@ require_once '../helper.php';
 require_once '../fileLoader.php';
 require_once '../bootstrap/app.php';
 
-if (empty($_SESSION['CSRF-token']) || time() >= ($_SESSION['token-expire'] ?? 0)) {
-    $_SESSION['CSRF-token'] = generateToken();
-    $_SESSION['token-expire'] = expireToken();
-}
+CSRF_Authenticator::generate();
 
 $router = new Router();
 

@@ -10,6 +10,7 @@
         <div class="login-container">
             <h2>LOGIN</h2>
             <form action="/<?= PROJECT_NAME ?>/login" method="post">
+                <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                 <div>
                     <label for="email">Email: *</label>
                     <input type="email" id="email" name="email" placeholder="Email">

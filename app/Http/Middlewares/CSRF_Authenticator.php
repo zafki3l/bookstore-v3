@@ -4,24 +4,46 @@ namespace App\Http\Middlewares;
 
 class CSRF_Authenticator
 {
-
-    public function verify()
+    public static function generate()
     {
-        if (!isset($_SESSION['CSRF-token'], $_POST['CSRF-token'])) {
+        if (empty($_SESSION['CSRF-token']) || time() >= ($_SESSION['token-expire'] ?? 0)) {
+            $_SESSION['CSRF-token'] = bin2hex(random_bytes(32));
+            $_SESSION['token-expire'] = time() + 3600;
+        }
+    }
+    
+    public function verify(): void
+    {
+        if (!$this->isTokenSet()) {
             exit('Missing CSRF token');
         }
 
         $sessionToken = (string) $_SESSION['CSRF-token'];
-        $formToken    = (string) $_POST['CSRF-token'];
+        $formToken = (string) $_POST['CSRF-token'];
 
-        if (!hash_equals($sessionToken, $formToken)) {
+        if (!$this->verifyToken($sessionToken, $formToken)) {
             exit('405 error!');
         }
 
-        if (time() >= $_SESSION['token-expire']) {
+        if ($this->isTokenExpire()) {
             exit('token expired');
         }
 
         unset($_SESSION['CSRF-token'], $_SESSION['token-expire']);
+    }
+
+    private function isTokenSet(): bool
+    {
+        return isset($_SESSION['CSRF-token'], $_POST['CSRF-token']);
+    }
+    
+    private function verifyToken(string $sessionToken, string $formToken): bool
+    {
+        return hash_equals($sessionToken, $formToken);
+    }
+
+    private function isTokenExpire(): bool
+    {
+        return time() >= $_SESSION['token-expire'];
     }
 }

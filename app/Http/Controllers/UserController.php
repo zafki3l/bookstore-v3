@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middlewares\CSRF_Authenticator;
 use App\Http\Middlewares\EnsureAdmin;
 use App\Http\Requests\UserRequest;
 use App\Models\Address;
@@ -25,9 +26,14 @@ class UserController extends Controller
         private User $user,
         private Address $address,
         private EnsureAdmin $ensureAdmin,
-        private UserErrorHandler $userErrorHandler
+        private UserErrorHandler $userErrorHandler,
+        private CSRF_Authenticator $CSRF_Authenticator
     ) {
         $this->ensureAdmin->handle();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->CSRF_Authenticator->verify();
+        }
     }
 
     /**

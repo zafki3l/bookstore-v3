@@ -12,6 +12,7 @@
         <div class="register-container">
             <h2>ACCOUNT REGISTRATION</h2>
             <form action="/<?= PROJECT_NAME ?>/register" method="post">
+                <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                 <div>
                     <div class="row">
                         <div class="form-group">

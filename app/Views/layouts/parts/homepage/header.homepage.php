@@ -28,6 +28,7 @@
                     <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Logout</a>
                 </li>
                 <form id="logoutForm" action="/<?= PROJECT_NAME ?>/logout" method="post" style="display:none;">
+                    <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                     <input type="hidden" name="logout" value="1">
                 </form>
             <?php else: ?>

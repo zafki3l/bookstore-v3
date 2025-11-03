@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middlewares\CSRF_Authenticator;
 use App\Http\Requests\AuthRequest;
 use Core\Controller;
 use App\Models\User;
@@ -22,8 +23,13 @@ class AuthController extends Controller
     public function __construct(
         private User $user,
         private Address $address,
-        private UserErrorHandler $userErrorHandler
-    ) {}
+        private UserErrorHandler $userErrorHandler,
+        private CSRF_Authenticator $CSRF_Authenticator
+    ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->CSRF_Authenticator->verify();
+        }
+    }
 
     /**
      * Shows login form

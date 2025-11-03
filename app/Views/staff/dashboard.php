@@ -9,54 +9,75 @@
 
 <body>
     <div class="main-content">
-        <div class="dashboard-grid">
-            <div class="div1">
-                <div class="dashboard staff-info">
-                    <div class="info-header">
-                        <h3>STAFF INFORMATION</h3>
-                    </div>
-                    <div class="info-content">
-                        <div class="img">
-                            <i class="fa-solid fa-user-circle fa-5x"></i>
+        <div class="staff-dashboard">
+            <div class="dashboard-grid">
+                <!-- Staff Information Section -->
+                <section class="card staff-info-card">
+                    <header class="card-header">
+                        <h3>Staff Information</h3>
+                    </header>
+                    <div class="card-body">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-user-circle fa-4x" aria-hidden="true"></i>
                         </div>
-                        <div class="text">
-                            <p>User ID: <?php echo htmlspecialchars($_SESSION['user']['user_id']); ?></p>
-                            <p>Username: <?php echo htmlspecialchars($_SESSION['user']['last_name']); ?></p>
-                            <p>Email: <?php echo htmlspecialchars($_SESSION['user']['email']); ?></p>
-                            <p>Role: <?php echo htmlspecialchars($_SESSION['user']['role'] == App\Models\User::ROLE_STAFF ? 'Staff' : 'Admin'); ?></p>
+                        <div class="profile-details">
+                            <p><strong>User ID:</strong> <?= htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?></p>
+                            <p><strong>Name:</strong> <?= htmlspecialchars($_SESSION['user']['last_name'] ?? '') ?></p>
+                            <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['user']['email'] ?? '') ?></p>
+                            <p><strong>Role:</strong> <?= htmlspecialchars(($_SESSION['user']['role'] ?? 0) == App\Models\User::ROLE_STAFF ? 'Staff' : 'Admin') ?></p>
                         </div>
                     </div>
-                </div>
-                <div class="div2">
-                    <a href="books/index.books.php?page_number=1">
-                        <div class="dashboard box1 book-manage">Book Management</div>
-                    </a>
+                </section>
 
-                    <a href="categories/index.categories.php">
-                        <div class="dashboard box1 category-man">Category Management</div>
-                    </a>
-                </div>
+                <!-- Books & Categories Section -->
+                <section class="card inventory-card">
+                    <header class="card-header">
+                        <h3>Books & Categories</h3>
+                    </header>
+                    <div class="card-body">
+                        <div class="management-links">
+                            <a class="manage-link" href="books/index.books.php?page_number=1">
+                                <i class="fa-solid fa-book"></i>
+                                Book Management
+                            </a>
+                            <a class="manage-link" href="categories/index.categories.php">
+                                <i class="fa-solid fa-tags"></i>
+                                Category Management
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section class="card orders-card">
+                    <header class="card-header">
+                        <h3>Orders</h3>
+                    </header>
+                    <div class="card-body">
+                        <div class="management-links">
+                            <a class="manage-link" href="orders/index.orders.php?page_number=1">
+                                <i class="fa-solid fa-shopping-cart"></i>
+                                Order Management
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <a href="salesReport/monthly.salesReport.php">
-                <div class="div1 bottom">
-                    <div class="dashboard sales-report">
-                        <div class="chart">
-                    <canvas id="myChart"></canvas>
+            <!-- Chart Report Section -->
+            <section class="card chart-card">
+                <header class="card-header">
+                    <h3>Sales Report</h3>
+                </header>
+                <div class="card-body chart-body">
+                    <canvas id="myChart" aria-label="Sales chart"></canvas>
                 </div>
-            </a>
-
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="/oop-bookstore/public/js/chart.js"></script>
-                </div>
-                <div class="div2-2">
-                    <a href="orders/index.orders.php?page_number=1">
-                        <div class=" box2 order-manage">Order Management</div>
-                    </a>
-                </div>
-            </div>
+            </section>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/oop-bookstore/public/js/chart.js"></script>
 </body>
 
 </html>

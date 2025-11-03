@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
+use App\Http\Middlewares\CSRF_Authenticator;
 use Core\Router;
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-function error($msg)
-{
-    return $_SESSION['errors'][$msg];
-}
-
-function message($message)
-{
-    return $_SESSION[$message];
-}
-
+require_once '../helper.php';
 
 require_once '../fileLoader.php';
 require_once '../bootstrap/app.php';
+
+CSRF_Authenticator::generate();
 
 $router = new Router();
 

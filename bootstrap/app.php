@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middlewares\CSRF_Authenticator;
 use App\Models\Address;
 use App\Models\User;
 use Configs\Database;
@@ -35,7 +36,8 @@ $container->bind(AuthController::class, function ($container) {
     return new AuthController(
         $container->resolve(User::class),
         $container->resolve(Address::class),
-        $container->resolve(UserErrorHandler::class)
+        $container->resolve(UserErrorHandler::class),
+        $container->resolve(CSRF_Authenticator::class)
     );
 });
 

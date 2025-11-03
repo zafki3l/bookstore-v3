@@ -84,6 +84,7 @@
                                                 <p>Click confirm to delete</p>
                                                 <form action="/<?= PROJECT_NAME ?>/admin/users/<?= htmlspecialchars($user['user_id']) ?>"
                                                     method="post" id="deleteForm">
+                                                    <input type="hidden" name="CSRF-token" value="<?= $_SESSION['CSRF-token'] ?>">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     
                                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user['user_id']) ?>">

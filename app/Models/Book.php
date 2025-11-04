@@ -46,4 +46,23 @@ class Book extends Model
             return [];
         }
     }
+
+    public function createBook(): int
+    {
+        try {
+            return $this->insert('books', [
+                'name' => $this->name,
+                'author' => $this->author,
+                'publisher' => $this->publisher,
+                'pages' => $this->pages,
+                'description' => $this->description,
+                'price' => $this->price,
+                'quantity' => $this->quantity,
+                'cover' => $this->cover
+            ]);
+        } catch (PDOException $e) {
+            print $e->getMessage();
+            return 0;
+        }
+    }
 }

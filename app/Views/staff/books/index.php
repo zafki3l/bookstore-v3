@@ -24,7 +24,7 @@
 
                 <!-- Thanh tìm kiếm -->
                 <div class="search-add">
-                    <a href="" class="addBook">Add book</a>
+                    <a href="/<?= PROJECT_NAME ?>/staff/books/create" class="addBook">Add book</a>
                 </div>
             </div>
 
@@ -37,6 +37,7 @@
                             <th>AUTHOR</th>
                             <th>PUBLISHER</th>
                             <th>PAGES</th>
+                            <th>CATEGORY</th>
                             <th>DESCRIPTION</th>
                             <th>PRICE</th>
                             <th>QUANTITY</th>
@@ -53,6 +54,7 @@
                                 <td><?= htmlspecialchars($book['author']) ?></td>
                                 <td><?= htmlspecialchars($book['publisher']) ?></td>
                                 <td><?= htmlspecialchars($book['pages']) ?></td>
+                                <td><?= NULL ?></td>
                                 <td><?= htmlspecialchars($book['description']) ?></td>
                                 <td><?= number_format(htmlspecialchars($book['price']), 0, ',', '.') ?>VNĐ</td>
                                 <td><?= htmlspecialchars($book['quantity']) ?></td>

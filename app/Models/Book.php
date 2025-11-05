@@ -58,6 +58,7 @@ class Book extends Model
                 'description' => $this->description,
                 'price' => $this->price,
                 'quantity' => $this->quantity,
+                'status' => $this->status,
                 'cover' => $this->cover
             ]);
         } catch (PDOException $e) {

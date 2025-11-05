@@ -11,10 +11,8 @@ use Core\Controller;
  */
 class StaffController extends Controller
 {
-    public function __construct(private EnsureStaff $ensureStaff)
-    {
-        $this->ensureStaff->handle();
-    }
+    public function __construct() {}
+    
     /**
      * Shows staff dashboard view
      * @return mixed

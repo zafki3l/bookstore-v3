@@ -13,11 +13,8 @@ class BookController extends Controller
     use HttpResponseTrait;
 
     public function __construct(
-        private EnsureStaff $ensureStaff,
         private Book $book
-    ) {
-        $this->ensureStaff->handle();
-    }
+    ) {}
 
     public function index(): mixed
     {

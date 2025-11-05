@@ -23,13 +23,8 @@ class AuthController extends Controller
     public function __construct(
         private User $user,
         private Address $address,
-        private UserErrorHandler $userErrorHandler,
-        private CSRF_Authenticator $CSRF_Authenticator
-    ) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->CSRF_Authenticator->verify();
-        }
-    }
+        private UserErrorHandler $userErrorHandler
+    ) {}
 
     /**
      * Shows login form

@@ -25,16 +25,8 @@ class UserController extends Controller
     public function __construct(
         private User $user,
         private Address $address,
-        private EnsureAdmin $ensureAdmin,
-        private UserErrorHandler $userErrorHandler,
-        private CSRF_Authenticator $CSRF_Authenticator
-    ) {
-        $this->ensureAdmin->handle();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->CSRF_Authenticator->verify();
-        }
-    }
+        private UserErrorHandler $userErrorHandler
+    ) {}
 
     /**
      * Shows add user view

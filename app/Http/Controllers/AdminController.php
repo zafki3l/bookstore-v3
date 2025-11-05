@@ -16,11 +16,8 @@ class AdminController extends Controller
     use HttpResponseTrait;
 
     public function __construct(
-        private EnsureAdmin $ensureAdmin,
         private User $user,
-    ) {
-        $this->ensureAdmin->handle();
-    }
+    ) {}
 
     /**
      * Shows admin dashboard view

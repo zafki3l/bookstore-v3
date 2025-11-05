@@ -10,11 +10,14 @@ namespace Core;
  */
 class Router
 {
-    /**
-     * The registered routes
-     * @var array
-     */
     private array $routes = [];
+    private array $middlewares = [];
+
+    public function middleware(array $middlewares): self
+    {
+        $this->middlewares = $middlewares;
+        return $this;
+    }
 
     /**
      * Register a GET route
@@ -22,9 +25,9 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function get(string $path, mixed $callback): void
+    public function get(string $path, mixed $action): void
     {
-        $this->routes['GET'][$path] = $callback;
+        $this->add('GET', $path, $action);
     }
 
     /**
@@ -33,9 +36,9 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function post(string $path, mixed $callback): void
+    public function post(string $path, mixed $action): void
     {
-        $this->routes['POST'][$path] = $callback;
+        $this->add('POST', $path, $action);
     }
 
     /**
@@ -44,9 +47,9 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function put(string $path, mixed $callback): void
+    public function put(string $path, mixed $action): void
     {
-        $this->routes['PUT'][$path] = $callback;
+        $this->add('PUT', $path, $action);
     }
 
     /**
@@ -55,9 +58,9 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function patch(string $path, mixed $callback): void
+    public function patch(string $path, mixed $action): void
     {
-        $this->routes['PATCH'][$path] = $callback;
+        $this->add('PATCH', $path, $action);
     }
 
     /**
@@ -66,9 +69,19 @@ class Router
      * @param mixed $callback
      * @return void
      */
-    public function delete(string $path, mixed $callback): void
+    public function delete(string $path, mixed $action): void
     {
-        $this->routes['DELETE'][$path] = $callback;
+        $this->add('DELETE', $path, $action);
+    }
+
+    private function add(string $method, string $path, mixed $action): void
+    {
+        $this->routes[$method][$path] = [
+            'action' => $action,
+            'middlewares' => $this->middlewares
+        ];
+
+        $this->middlewares = [];
     }
 
     /**
@@ -89,10 +102,19 @@ class Router
             die('404 Page not found!');
         }
 
-        [$callback, $params] = $result;
+        [$route, $params] = $result;
 
-        if (is_array($callback)) {
-            [$controller, $action] = $callback;
+        $middlewares = $route['middlewares']; 
+        if (!empty($middlewares)) {
+            foreach ($middlewares as $middlwareClass) {
+                $middleware = new $middlwareClass();
+                $middleware->handle();
+            }
+        }
+
+        $action = $route['action'];
+        if (is_array($action)) {
+            [$controller, $action] = $action;
 
             $controller = App::resolve($controller);
 
@@ -100,7 +122,7 @@ class Router
             return;
         }
 
-        call_user_func_array($callback, $params);
+        call_user_func_array($action, $params);
     }
 
     /**

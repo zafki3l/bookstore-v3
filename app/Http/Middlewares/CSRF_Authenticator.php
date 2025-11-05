@@ -12,7 +12,7 @@ class CSRF_Authenticator
         }
     }
     
-    public function verify(): void
+    public function handle(): void
     {
         if (!$this->isTokenSet()) {
             exit('Missing CSRF token');
